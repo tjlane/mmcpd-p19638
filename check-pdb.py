@@ -10,6 +10,7 @@ one_to_three = {'V':'VAL', 'I':'ILE', 'L':'LEU', 'E':'GLU', 'Q':'GLN', \
 'R':'ARG', 'K':'LYS', 'S':'SER', 'T':'THR', 'M':'MET', 'A':'ALA',    \
 'G':'GLY', 'P':'PRO', 'C':'CYS'}
 
+
 EXPECTED_RESIDUES = "ALA CYS ASP GLU PHE GLY HIS ILE LYS LEU MET ASN PRO GLN ARG SER THR VAL TRP TYR".split()
 EXPECTED_RESIDUES += "DA DT DG DC".split()
 EXPECTED_RESIDUES += [
@@ -19,6 +20,11 @@ EXPECTED_RESIDUES += [
     'HOH',
 ]
 
+
+EXPECTED_CHAINS = ["A", "B", "C", "D", "E", "F", "W"]
+
+
+# I added the C-terminal tag
 mmCPD_uniprot = """
 MIMNPKRIRALKSGKQGDGPVVYWMSRDQRAEDNWALLFSRAIAKEANVPVVVVFCLTDE
 FLEAGIRQYEFMLKGLQELEVSLSRKKIPSFFLRGDPGEKISRFVKDYNAGTLVTDFSPL
@@ -27,7 +33,7 @@ LEPNSVTPELSAGAGMVETLSDVLETGVKALLPERALLKNKDPLFEPWHFEPGEKAAKKV
 MESFIADRLDSYGALRNDPTKNMLSNLSPYLHFGQISSQRVVLEVEKAESNPGSKKAFLD
 EILIWKEISDNFCYYNPGYDGFESFPSWAKESLNAHRNDVRSHIYTLEEFEAGKTHDPLW
 NASQMELLSTGKMHGYMRMYWAKKILEWSESPEKALEIAICLNDRYELDGRDPNGYAGIA
-WSIGGVHDRAWGEREVTGKIRYMSYEGCKRKFDVKLYIEKYSAL"""
+WSIGGVHDRAWGEREVTGKIRYMSYEGCKRKFDVKLYIEKYSALDKLAAALEHHHHHH"""
 
 ttd_strand = [
     'DA',
@@ -73,7 +79,6 @@ SEQUENCE = {
 }
 
 
-
 # --- PDB slices for ATOM and HETATM records
 # https://www.cgl.ucsf.edu/chimera/docs/UsersGuide/tutorials/pdbintro.html
 _RECORD         = slice( 0,  6)
@@ -89,9 +94,9 @@ _COORDINATES    = slice(31, 54)
 def shift_sequence_numbering(pdb_file_text : list[str], chain, shift) -> list[str]:
     newlines = []
     for l in pdb_file_text:
-        if l[_RECORD].startswith('ATOM') and l[_CHAIN_ID] == chain:
-            new_num = int(l[_ATOM_NUMBER]) + shift
-            new_l = l[:6] + f'{new_num}'.rjust(5) + l[11:]
+        if l[_RECORD].startswith('ATOM') and l[_CHAIN_ID].strip() == chain:
+            new_num = int(l[_RESIDUE_NUMBER]) + shift
+            new_l = l[:22] + f'{new_num}'.rjust(4) + l[26:]
             assert len(new_l) == len(l)
             newlines.append(new_l)
         else:
@@ -99,8 +104,39 @@ def shift_sequence_numbering(pdb_file_text : list[str], chain, shift) -> list[st
     return newlines
 
 
-def make_water_chain(pdb_file_text : list[str]) -> list[str]:
-    raise NotImplementedError()
+def make_water_chain(pdb_file_text : list[str], chain_name : str) -> list[str]:
+
+    running_water_counter = 0
+    newlines = []
+
+    for l in pdb_file_text:
+        if l[_RECORD] == 'HETATM' and l[_RESIDUE_NAME] == 'HOH':
+            running_water_counter += 1
+
+            new_l = l[:20] + f' {chain_name}' + f'{running_water_counter}'.rjust(4) + l[26:]
+            assert len(new_l) == len(l)
+            newlines.append(new_l)
+
+        else:
+            newlines.append(l)
+
+    return newlines
+
+
+def check_chains(pdb_file_text):
+    for l in pdb_file_text:
+        if l[_RECORD].strip() in ['ATOM', 'HETATM']:
+            assert l[_CHAIN_ID] in EXPECTED_CHAINS, l
+    return
+
+
+def check_atom_numbering(pdb_file_text):
+    counter = 0
+    for l in pdb_file_text:
+        if l[_RECORD].strip() in ['ATOM', 'HETATM']:
+            counter += 1
+            assert int(l[_ATOM_NUMBER]) == counter, (counter, l)
+    return
 
 
 def check_for_ions(pdb_file_text : list[str]):
@@ -120,61 +156,36 @@ def check_sequence(pdb_file_text : list[str]):
 
     for l in pdb_file_text:
         if l.startswith('ATOM'):
-            
+
             chain = l[_CHAIN_ID]
             index = int(l[_RESIDUE_NUMBER])
+            got = l[_RESIDUE_NAME].strip()
 
-            if index >= len(SEQUENCE[chain]):
+            if index > len(SEQUENCE[chain]):
                 print(
                     '! extra residue in model (vs sequence)',
-                    chain, index,
-                    l[_RESIDUE_NAME]
+                    chain, index, got,
                 )
 
-            elif not l[_RESIDUE_NAME].strip() == SEQUENCE[chain][index]:
-                print(
-                    '! sequence mismatch: chain, res, got, expected',
-                    chain, index,
-                    l[_RESIDUE_NAME], SEQUENCE[chain][index]
-                )
-
-
-
-def final_refinement(
-    fixed_pdb_path,
-    mtz_path,
-    ttd_cif_path,
-    fda_cif_path,
-    rfree_mtz_path
-):
-
-    cmd = f"""
-phenix.refine \
-{fixed_pdb_path} \
-{mtz_path} \
-{ttd_cif_path} \
-{fda_cif_path} \
-xray_data.r_free_flags.file_name={rfree_mtz_path} \
-main.number_of_macro_cycles=6 \
-refinement.refine.strategy=tls+individual_sites+individual_adp \
-refinement.refine.adp.tls="chain 'A' and chain 'C' and chain 'D'" \
-refinement.refine.adp.tls="chain 'B' and chain 'F' and chain 'E'" \
-hydrogens.refine=riding
-"""
-
-    raise NotImplementedError()
+            else:
+                # regarding index: python zero indexing, but PDB 1 indexing!
+                expected = SEQUENCE[chain][index-1]
+                if got != expected:
+                    print(
+                        f'! sequence mismatch: chain={chain}, res={index}, got={got}, expected={expected}',
+                    )
 
     return
+
+
+def check_link_records():
+    raise NotImplementedError
 
 
 def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('initial_pdb')
-    # parser.add_argument('data_mtz')
-    # parser.add_argument('ttd_cif')
-    # parser.add_argument('fda_cif')
-    # parser.add_argument('rfree_mtz')
     args = parser.parse_args()
 
     with open(args.initial_pdb, 'r') as f:
@@ -183,10 +194,17 @@ def main():
     pdb_file_text = shift_sequence_numbering(pdb_file_text, 'A', 1)
     pdb_file_text = shift_sequence_numbering(pdb_file_text, 'B', 1)
 
-    #pdb_file_text = make_water_chain(pdb_file_text)
+    pdb_file_text = shift_sequence_numbering(pdb_file_text, 'D', 1)
+    pdb_file_text = shift_sequence_numbering(pdb_file_text, 'F', 1)
+
+    pdb_file_text = make_water_chain(pdb_file_text, 'W')
     check_for_ions(pdb_file_text)
     #check_dna_termini(pdb_file_text)
     check_sequence(pdb_file_text)
+
+    check_chains(pdb_file_text)
+    check_atom_numbering(pdb_file_text)
+    #check_link_records
 
     return
 
