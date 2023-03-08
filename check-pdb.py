@@ -97,6 +97,7 @@ _RESIDUE_NAME   = slice(17, 20)
 _CHAIN_ID       =       21
 _RESIDUE_NUMBER = slice(22, 26)
 _COORDINATES    = slice(31, 54)
+_OCCUPANCY      = slice(54, 59)
 
 
 def shift_sequence_numbering(pdb_file_text : list[str], chain, shift) -> list[str]:
@@ -191,11 +192,20 @@ def check_sequence(pdb_file_text : list[str]):
     return
 
 
+def check_low_occpancy(pdb_file_text, cutoff=0.2):
+    for l in pdb_file_text:
+        if l[_RECORD] in ["ATOM  ", "HETATM"]:
+            if float(l[_OCCUPANCY]) < cutoff:
+                raise ValueError(f'occupancy < {cutoff}', l)
+    return
+
+
 def check_link_records(pdb_file_text):
     for lr in EXPECTED_LINK_RECORDS:
         if lr not in [l.strip() for l in pdb_file_text]:
             pprint('expected LINK records:')
-            pprint(EXPECTED_LINK_RECORDS)
+            for r in EXPECTED_LINK_RECORDS:
+                print(r)
             raise ValueError(f'missing link: {lr}')
     return
 
@@ -222,6 +232,7 @@ def main():
 
     check_chains(pdb_file_text)
     check_atom_numbering(pdb_file_text)
+    check_low_occpancy(pdb_file_text)
     check_link_records(pdb_file_text)
 
     final_pdb_path = args.initial_pdb[:-4] + '_checked.pdb'
