@@ -24,6 +24,14 @@ EXPECTED_RESIDUES += [
 EXPECTED_CHAINS = ["A", "B", "C", "D", "E", "F", "W"]
 
 
+EXPECTED_LINK_RECORDS = [
+    "LINK         O3'  DC C   6                 P   TTD C   7",
+    "LINK         P    DC C   9                 O3' TTD C   7",
+    "LINK         O3'  DC E   6                 P   TTD E   7",
+    "LINK         P    DC E   9                 O3' TTD E   7",
+]
+
+
 # I added the C-terminal tag
 mmCPD_uniprot = """
 MIMNPKRIRALKSGKQGDGPVVYWMSRDQRAEDNWALLFSRAIAKEANVPVVVVFCLTDE
@@ -148,7 +156,12 @@ def check_for_ions(pdb_file_text : list[str]):
 
 
 def check_dna_termini(pdb_file_text : list[str]):
-    raise NotImplementedError()
+    chains_to_check = ['C', 'D', 'E', 'F']
+    for l in pdb_file_text:
+        if l[_RECORD].strip() == 'ATOM' and l[_CHAIN_ID] in chains_to_check:
+            if int(l[_RESIDUE_NUMBER]) == 1:
+                assert l[_ATOM_NAME].strip() != 'P', l
+    return
 
 
 def check_sequence(pdb_file_text : list[str]):
@@ -178,8 +191,13 @@ def check_sequence(pdb_file_text : list[str]):
     return
 
 
-def check_link_records():
-    raise NotImplementedError
+def check_link_records(pdb_file_text):
+    for lr in EXPECTED_LINK_RECORDS:
+        if lr not in [l.strip() for l in pdb_file_text]:
+            pprint('expected LINK records:')
+            pprint(EXPECTED_LINK_RECORDS)
+            raise ValueError(f'missing link: {lr}')
+    return
 
 
 def main():
@@ -199,12 +217,19 @@ def main():
 
     pdb_file_text = make_water_chain(pdb_file_text, 'W')
     check_for_ions(pdb_file_text)
-    #check_dna_termini(pdb_file_text)
+    check_dna_termini(pdb_file_text)
     check_sequence(pdb_file_text)
 
     check_chains(pdb_file_text)
     check_atom_numbering(pdb_file_text)
-    #check_link_records
+    check_link_records(pdb_file_text)
+
+    final_pdb_path = args.initial_pdb[:-4] + '_checked.pdb'
+    with open(final_pdb_path, 'w') as f:
+        f.writelines(pdb_file_text)
+
+    print('checks passed')
+    print(f'{args.initial_pdb} --> {final_pdb_path}')
 
     return
 
