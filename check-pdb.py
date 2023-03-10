@@ -103,7 +103,7 @@ _OCCUPANCY      = slice(54, 59)
 def shift_sequence_numbering(pdb_file_text : list[str], chain, shift) -> list[str]:
     newlines = []
     for l in pdb_file_text:
-        if l[_RECORD].startswith('ATOM') and l[_CHAIN_ID].strip() == chain:
+        if (l[_RECORD].startswith('ATOM') or l[_RECORD].startswith('ANISOU')) and l[_CHAIN_ID].strip() == chain:
             new_num = int(l[_RESIDUE_NUMBER]) + shift
             new_l = l[:22] + f'{new_num}'.rjust(4) + l[26:]
             assert len(new_l) == len(l)
