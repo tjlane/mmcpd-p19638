@@ -72,16 +72,16 @@ def main():
 
     extr = extr.drop(columns=['FreeR_flag'])
     staraniso = staraniso.drop(columns=['E', 'SIGE', 'SA_flag', 'SIGNAL_value', 'SIGNAL_class'])
-    phenix = phenix.drop(columns=['I-obs', 'SIGI-obs', 'F-obs-filtered', 'SIGF-obs-filtered'])
-    
+    phenix = phenix.drop(columns=['F-obs', 'SIGF-obs', 'F-obs-filtered', 'SIGF-obs-filtered'])
+
     # here: don't fill above CUTOFF angstroms
     # this prevents inappropriate filling of anisotropically trimmed HKLs
     dHKL = phenix.compute_dHKL()["dHKL"]
-    phenix['2FOFCWT'][dHKL > CUTOFF] = phenix['2FOFCWT_no_fill'][dHKL > CUTOFF]
-    phenix['PH2FOFCWT'][dHKL > CUTOFF] = phenix['PH2FOFCWT_no_fill'][dHKL > CUTOFF]
+    phenix.loc[dHKL < CUTOFF, '2FOFCWT'] = phenix.loc[dHKL < CUTOFF, '2FOFCWT_no_fill']
+    phenix.loc[dHKL < CUTOFF, 'PH2FOFCWT'] = phenix.loc[dHKL < CUTOFF, 'PH2FOFCWT_no_fill']
 
-    combined = staraniso.join(extr).dropna(how='all')
-    combined = combined.join(phenix).dropna(how='all')
+    combined = staraniso.join(extr, how='outer').dropna(how='all')
+    combined = combined.join(phenix, how='outer').dropna(how='all')
 
     assert set(combined.columns) == set(EXPECTED_COLUMNS)
 
