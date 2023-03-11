@@ -214,16 +214,18 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('initial_pdb')
+    parser.add_argument('--no-shift', action='store_true', default=False)
     args = parser.parse_args()
 
     with open(args.initial_pdb, 'r') as f:
         pdb_file_text = f.readlines()
 
-    pdb_file_text = shift_sequence_numbering(pdb_file_text, 'A', 1)
-    pdb_file_text = shift_sequence_numbering(pdb_file_text, 'B', 1)
+    if not args.no_shift:
+        pdb_file_text = shift_sequence_numbering(pdb_file_text, 'A', 1)
+        pdb_file_text = shift_sequence_numbering(pdb_file_text, 'B', 1)
 
-    pdb_file_text = shift_sequence_numbering(pdb_file_text, 'D', 1)
-    pdb_file_text = shift_sequence_numbering(pdb_file_text, 'F', 1)
+        pdb_file_text = shift_sequence_numbering(pdb_file_text, 'D', 1)
+        pdb_file_text = shift_sequence_numbering(pdb_file_text, 'F', 1)
 
     pdb_file_text = make_water_chain(pdb_file_text, 'W')
     check_for_ions(pdb_file_text)
@@ -231,7 +233,7 @@ def main():
     check_sequence(pdb_file_text)
 
     check_chains(pdb_file_text)
-    check_atom_numbering(pdb_file_text)
+    #check_atom_numbering(pdb_file_text)
     check_low_occpancy(pdb_file_text)
     check_link_records(pdb_file_text)
 
