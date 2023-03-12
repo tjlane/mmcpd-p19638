@@ -1,3 +1,4 @@
+""" might be the messiest code of my life - sorry """
 
 import argparse
 import pandas as pd
@@ -18,6 +19,10 @@ def parse_overall_stats(path):
                 value = sp[1].strip().split()
                 overall_stats['res_low']  = value[0]
                 overall_stats['res_high'] = value[2]
+
+            elif field == 'Rsplit (%)':
+                value = sp[1].strip().split()
+                overall_stats[field] = str( round( float(value[0]) / 100.0, 4 ) )
 
             elif len(sp) > 1:
                 value = sp[1].strip().split()
