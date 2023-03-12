@@ -2,7 +2,11 @@
 import os
 import sys
 import pandas as pd
+from tabulate import tabulate
 from glob import glob
+
+#pd.set_option('display.float_format', lambda x: '%.03f' % x)
+pd.set_option('display.max_colwidth', None)
 
 
 STATS_FILES = [
@@ -11,6 +15,11 @@ STATS_FILES = [
     ('CCstar.dat', 'CC*'),
     ('Rsplit.dat', 'Rsplit/%'),
 ]
+
+
+def to_fwf(df, fname):
+    content = tabulate(df.values.tolist(), list(df.columns), tablefmt="plain")
+    open(fname, "w").write(content)
 
 
 def main():
@@ -43,9 +52,12 @@ def main():
         'CC', 'CC*', 'Rsplit/%']
     ]
 
-    master_df.to_csv('table1.csv')
+    #master_df.to_csv('table1.csv', sep='\t')
     print(master_df)
-    print('wrote --> "table1.csv"')
+    #to_fwf(master_df, 'table1.txt')
+    with open('table1.txt', 'w') as f:
+        print(master_df, file=f)
+    print('wrote --> "table1.txt"')
 
     return
 
