@@ -1,7 +1,6 @@
 """ should be run at the last step before submission """
 
 import argparse
-from pathlib import Path
 from pprint import pprint
 
 
@@ -100,7 +99,7 @@ _COORDINATES    = slice(31, 54)
 _OCCUPANCY      = slice(54, 59)
 
 
-def shift_sequence_numbering(pdb_file_text : list[str], chain, shift) -> list[str]:
+def shift_sequence_numbering(pdb_file_text, chain, shift):
     newlines = []
     for l in pdb_file_text:
         if (l[_RECORD] in ['ATOM  ', 'ANISOU', 'HETATM']) and l[_CHAIN_ID].strip() == chain:
@@ -113,7 +112,7 @@ def shift_sequence_numbering(pdb_file_text : list[str], chain, shift) -> list[st
     return newlines
 
 
-def make_water_chain(pdb_file_text : list[str], chain_name : str) -> list[str]:
+def make_water_chain(pdb_file_text, chain_name):
 
     running_water_counter = 0
     newlines = []
@@ -148,7 +147,7 @@ def check_atom_numbering(pdb_file_text):
     return
 
 
-def check_for_ions(pdb_file_text : list[str]):
+def check_for_ions(pdb_file_text):
     for l in pdb_file_text:
         if l[_RECORD] in ["ATOM  ", "HETATM"]:
             if l[_RESIDUE_NAME].strip() not in EXPECTED_RESIDUES:
@@ -156,7 +155,7 @@ def check_for_ions(pdb_file_text : list[str]):
     return
 
 
-def check_dna_termini(pdb_file_text : list[str]):
+def check_dna_termini(pdb_file_text):
     chains_to_check = ['C', 'D', 'E', 'F']
     for l in pdb_file_text:
         if l[_RECORD].strip() == 'ATOM' and l[_CHAIN_ID] in chains_to_check:
@@ -165,7 +164,7 @@ def check_dna_termini(pdb_file_text : list[str]):
     return
 
 
-def check_sequence(pdb_file_text : list[str]):
+def check_sequence(pdb_file_text):
     # should also check numbering...
 
     for l in pdb_file_text:
