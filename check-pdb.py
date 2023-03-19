@@ -183,29 +183,34 @@ def check_sequence(pdb_file_text):
             else:
                 # regarding index: python zero indexing, but PDB 1 indexing!
                 expected = SEQUENCE[chain][index-1]
+                if expected == 'TTD':
+                    expected = 'DT'
                 if got != expected:
-                    print(
+                    raise ValueError(
                         f'! sequence mismatch: chain={chain}, res={index}, got={got}, expected={expected}',
                     )
 
     return
 
 
-def check_low_occpancy(pdb_file_text, cutoff=0.2):
+def check_low_occupancy(pdb_file_text, cutoff=0.2):
     for l in pdb_file_text:
         if l[_RECORD] in ["ATOM  ", "HETATM"]:
             if float(l[_OCCUPANCY]) < cutoff:
                 raise ValueError(f'occupancy < {cutoff}', l)
+            elif float(l[_OCCUPANCY]) != 1:
+                print('check occupancy, not 1:', l.strip()) 
     return
 
 
 def check_link_records(pdb_file_text):
     for lr in EXPECTED_LINK_RECORDS:
         if lr not in [l.strip() for l in pdb_file_text]:
-            pprint('expected LINK records:')
+            pprint('if this is a T<>T model, add LINK records:')
             for r in EXPECTED_LINK_RECORDS:
                 print(r)
-            raise ValueError(f'missing link: {lr}')
+                return
+            # raise ValueError(f'missing link: {lr}')
     return
 
 
@@ -213,16 +218,18 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('initial_pdb')
-    parser.add_argument('--no-shift', action='store_true', default=False)
+    parser.add_argument('--no-shift-prot', action='store_true', default=False)
+    parser.add_argument('--no-shift-dna', action='store_true', default=False)
     args = parser.parse_args()
 
     with open(args.initial_pdb, 'r') as f:
         pdb_file_text = f.readlines()
 
-    if not args.no_shift:
+    if not args.no_shift_prot:
         pdb_file_text = shift_sequence_numbering(pdb_file_text, 'A', 1)
         pdb_file_text = shift_sequence_numbering(pdb_file_text, 'B', 1)
 
+    if not args.no_shift_dna:
         pdb_file_text = shift_sequence_numbering(pdb_file_text, 'D', 1)
         pdb_file_text = shift_sequence_numbering(pdb_file_text, 'F', 1)
 
@@ -233,7 +240,7 @@ def main():
 
     check_chains(pdb_file_text)
     #check_atom_numbering(pdb_file_text)
-    check_low_occpancy(pdb_file_text)
+    check_low_occupancy(pdb_file_text)
     check_link_records(pdb_file_text)
 
     final_pdb_path = args.initial_pdb[:-4] + '_checked.pdb'

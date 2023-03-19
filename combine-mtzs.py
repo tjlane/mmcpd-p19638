@@ -83,7 +83,7 @@ def main():
     combined = staraniso.join(extr, how='outer').dropna(how='all')
     combined = combined.join(phenix, how='outer').dropna(how='all')
 
-    assert set(combined.columns) == set(EXPECTED_COLUMNS)
+    assert set(combined.columns) == set(EXPECTED_COLUMNS), combined.columns
 
     mtz_ofn = 'combined.mtz'
     if os.path.exists(mtz_ofn):
