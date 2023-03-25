@@ -209,8 +209,26 @@ def check_link_records(pdb_file_text):
             pprint('if this is a T<>T model, add LINK records:')
             for r in EXPECTED_LINK_RECORDS:
                 print(r)
-                return
+            return
             # raise ValueError(f'missing link: {lr}')
+    return
+
+
+def enumerate_altconfs(pdb_file_text):
+
+    alt_confs = []
+
+    for l in pdb_file_text:
+        if l[_RECORD].startswith('ATOM'):
+            if l[_ALT_LOC_IND] != ' ':
+                alt_confs.append(
+                    (l[_CHAIN_ID], l[_RESIDUE_NAME], l[_RESIDUE_NUMBER])
+                )
+
+    print('ALT CONFS TO CHECK:') 
+    for ac in set(alt_confs):
+        print(ac)
+
     return
 
 
@@ -218,18 +236,18 @@ def main():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('initial_pdb')
-    parser.add_argument('--no-shift-prot', action='store_true', default=False)
-    parser.add_argument('--no-shift-dna', action='store_true', default=False)
+    parser.add_argument('--shift-prot', action='store_true', default=False)
+    parser.add_argument('--shift-dna', action='store_true', default=False)
     args = parser.parse_args()
 
     with open(args.initial_pdb, 'r') as f:
         pdb_file_text = f.readlines()
 
-    if not args.no_shift_prot:
+    if args.shift_prot:
         pdb_file_text = shift_sequence_numbering(pdb_file_text, 'A', 1)
         pdb_file_text = shift_sequence_numbering(pdb_file_text, 'B', 1)
 
-    if not args.no_shift_dna:
+    if args.shift_dna:
         pdb_file_text = shift_sequence_numbering(pdb_file_text, 'D', 1)
         pdb_file_text = shift_sequence_numbering(pdb_file_text, 'F', 1)
 
@@ -242,6 +260,7 @@ def main():
     #check_atom_numbering(pdb_file_text)
     check_low_occupancy(pdb_file_text)
     check_link_records(pdb_file_text)
+    enumerate_altconfs(pdb_file_text)
 
     final_pdb_path = args.initial_pdb[:-4] + '_checked.pdb'
     with open(final_pdb_path, 'w') as f:
