@@ -7,6 +7,8 @@ specific faction.
 Then, run phenix.model_vs_data and grep R-factors out of the result.
 """
 
+_ALT_LOC_IND = 16
+_CHAIN_ID  = 21
 _OCCUPANCY = slice(54, 59)
 
 import re
@@ -28,6 +30,21 @@ def change_occupancy_by_multiple(pdb_text, fraction):
     return '\n'.join(newlines)
 
 
+def chain_remap(pdb_text, mapping={'A':'H', 'B':'I', 'C':'J', 'D':'K', 'E':'L', 'F':'M', 'G':'N', 'W':'X'}):
+
+    newlines = []
+
+    for line in pdb_text.split('\n'):
+        if line.startswith('ATOM') or line.startswith('HETATM'):
+            new_chain = mapping[line[_CHAIN_ID]]
+            newline = line[:21] + new_chain + line[22:]
+            newlines.append(newline)
+        else:
+            newlines.append(newline)
+
+    return '\n'.join(newlines)
+
+
 def combine_pdbs(text1, text2):
     return text1.removesuffix('\nEND') + '\n' + text2
 
@@ -35,18 +52,29 @@ def combine_pdbs(text1, text2):
 def get_rfactors(pdb_path, data_mtz_path):
 
     cmd = [
-        'phenix.model_vs_data',
+        'phenix.refine',
         pdb_path,
         data_mtz_path,
+        'FDA.restraints.semirelaxed.cif',
+        'TTD.restraints.cif',
+        'main.bulk_solvent_and_scale=false',
+        'main.number_of_macro_cycles=0',
+        'refinement.pdb_interpretation.clash_guard.nonbonded_distance_threshold=None',
+        '--overwrite',
     ]
 
     r = subprocess.run(' '.join(cmd), shell=True, capture_output=True, text=True)
 
-    g_work = re.search(r'r_work:\s+(\d+\.\d+)', r.stdout)
-    g_free = re.search(r'r_free:\s+(\d+\.\d+)', r.stdout)
+    # g_work = re.search(r'r_work:\s+(\d+\.\d+)', r.stdout)
+    # g_free = re.search(r'r_free:\s+(\d+\.\d+)', r.stdout)
 
-    r_work = float(g_work.group(1))
-    r_free = float(g_free.group(1))
+    try:
+        g_r = re.search(r'Final R-work = (\d+\.\d+), R-free = (\d+\.\d+)', r.stdout)
+        r_work = float(g_r.group(1))
+        r_free = float(g_r.group(2))
+    except:
+        print(r.stdout)
+        return 0.0, 0.0
 
     return r_work, r_free
 
@@ -69,13 +97,14 @@ def main():
         light_pdb_text = f.read()
 
     print('')
-    print('OCCU\tRwork\tRfree')
-    print('----\t-----\t-----')
+    print('occu\tr-work\tr-free')
+    print('----\t------\t------')
 
     for fraction_dark in fractions_dark:
 
         pt1 = change_occupancy_by_multiple(dark_pdb_text, fraction_dark)
         pt2 = change_occupancy_by_multiple(light_pdb_text, 1.0-fraction_dark)
+        pt2 = chain_remap(pt2)
         combined_pdb_text = combine_pdbs(pt1, pt2)
 
         combined_pdb_path = 'combined_%.2f.pdb' % fraction_dark
@@ -84,7 +113,7 @@ def main():
 
         r_work, r_free = get_rfactors(combined_pdb_path, args.data_mtz)
 
-        print('%.2f\t%.3f\t%.3f' % (fraction_dark, r_work, r_free))
+        print('%.2f\t%.4f\t%.4f' % (fraction_dark, r_work, r_free))
 
     return
 
