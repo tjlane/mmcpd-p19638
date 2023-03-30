@@ -22,7 +22,7 @@ def change_occupancy_by_multiple(pdb_text, fraction):
         if line.startswith('ATOM') or line.startswith('HETATM'):
             old_occupancy = float(line[_OCCUPANCY])
             new_occupancy = old_occupancy * fraction
-            newline = line[:54] + '  %.1f' % new_occupancy + line[59:]
+            newline = line[:54] + '  %.2f' % new_occupancy + line[60:]
             newlines.append(newline)
 
     return '\n'.join(newlines)
