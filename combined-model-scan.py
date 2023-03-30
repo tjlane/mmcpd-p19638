@@ -52,6 +52,25 @@ def combine_pdbs(text1, text2):
 def get_rfactors(pdb_path, data_mtz_path):
 
     cmd = [
+        'phenix.model_vs_data',
+        pdb_path,
+        data_mtz_path,
+    ]
+
+    r = subprocess.run(' '.join(cmd), shell=True, capture_output=True, text=True)
+
+    g_work = re.search(r'r_work:\s+(\d+\.\d+)', r.stdout)
+    g_free = re.search(r'r_free:\s+(\d+\.\d+)', r.stdout)
+
+    r_work = float(g_work.group(1))
+    r_free = float(g_free.group(1))
+
+    return r_work, r_free
+
+
+def get_rfactors_no_solvent(pdb_path, data_mtz_path):
+
+    cmd = [
         'phenix.refine',
         pdb_path,
         data_mtz_path,
@@ -64,9 +83,6 @@ def get_rfactors(pdb_path, data_mtz_path):
     ]
 
     r = subprocess.run(' '.join(cmd), shell=True, capture_output=True, text=True)
-
-    # g_work = re.search(r'r_work:\s+(\d+\.\d+)', r.stdout)
-    # g_free = re.search(r'r_free:\s+(\d+\.\d+)', r.stdout)
 
     try:
         g_r = re.search(r'Final R-work = (\d+\.\d+), R-free = (\d+\.\d+)', r.stdout)
