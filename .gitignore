@@ -1,5 +1,6 @@
 *.ccp4
 *.mtz
+figures/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
