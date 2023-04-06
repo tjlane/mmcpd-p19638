@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 """ should be run at the last step before submission """
 
 import argparse

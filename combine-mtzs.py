@@ -1,3 +1,5 @@
+#!/opt/homebrew/Caskroom/miniforge/base/envs/rs/bin/python
+
 """
 combines 3 MTZs for submission:
 
