@@ -53,6 +53,13 @@ def TT_chainA_region_only(grid : gm.FloatGrid) -> gm.FloatGrid:
     return masked_grid
 
 
+def TT_chainB_region_only(grid : gm.FloatGrid) -> gm.FloatGrid:
+    TTD_O4R_XYZ = np.array([17.872, -17.329, -36.986]) 
+    radius = 8.0
+    masked_grid = mask_map(grid, TTD_O4R_XYZ, radius)
+    return masked_grid
+
+
 def FDA_chainA_region_only(grid : gm.FloatGrid) -> gm.FloatGrid:
     FAD_N10_XYZ = np.array([16.950, 14.541,  -3.135])
     radius = 7.0
