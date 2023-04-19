@@ -126,7 +126,11 @@ def FAD_ring_angle(trj):
     assert butterfly_angle > -90.0
     assert butterfly_angle < 90.0
 
-    return butterfly_angle
+    # small issue with this way of computing things
+    # p1 and p2 can invert
+    # so no easy way to assign the sign of the angle
+
+    return np.abs(butterfly_angle)
 
 
 def test():
