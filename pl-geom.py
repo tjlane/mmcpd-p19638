@@ -133,6 +133,32 @@ def FAD_ring_angle(trj):
     return np.abs(butterfly_angle)
 
 
+def simple_FAD_ring_angle(trj):
+
+    mid_points = []
+
+    expected_atoms = [2, 2, 2]
+
+    for i,atoms in enumerate([FAD_AXIS, ["C2", "N3"], ["C7", "C8"]]):
+
+        atom_sele = 'name ' + ' or name '.join(atoms)
+        selection = f'(chainid 0) and (resname FDA) and ({atom_sele})'
+        sele = trj.top.select(selection)
+
+        #print([trj.top.atom(ai) for ai in sele])
+        assert len(sele) == expected_atoms[i], len(sele)
+
+        xyz = trj.xyz[0,sele,:]
+        mid_points.append((xyz[0] + xyz[1]) / 2.0)
+
+    # angle between vector pointing from middle of N5/N10 to C2/N3 and C7/C8
+    p1 = mid_points[0] - mid_points[1]
+    p2 = mid_points[0] - mid_points[2]
+    butterfly_angle = angle_between_vectors(p1, -p2)
+
+    return butterfly_angle
+
+
 def test():
     xyz = np.array([[0., 0., 0.],
                     [1., 0., 0.],
@@ -169,6 +195,7 @@ def main():
             'C6-C6 dist' : bond_distances(trj, '6'),
             'TTD angle' : TT_angle(trj),
             'FAD angle' : FAD_ring_angle(trj),
+            'smpl FAD angle' : simple_FAD_ring_angle(trj),
         })
 
     print(pd.DataFrame(rows))
