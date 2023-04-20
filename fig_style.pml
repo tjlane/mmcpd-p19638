@@ -21,7 +21,7 @@ color atomic, (not elem C)
 
 load 3ps_deposit.pdb, 3ps
 
-color magenta, 3ps
+color limegreen, 3ps
 color atomic, (not elem C) 
 
 load 3ps_grid.map, 3ps_FoFomap
