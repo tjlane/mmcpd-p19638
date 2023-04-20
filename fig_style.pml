@@ -36,9 +36,11 @@ select TTD, (c. C and i. 5-9)
 show sticks, TTD
 select FAD, (c. A and r. FDA)
 show sticks, FAD
-select residues, (c. A and i. 162-164+253-257+263-268+301+305+376-379+400-403+406-410)
-show sticks, residues
 
+select fadresidues, (c. A and i. 164+256+257+301+305+376+379+421+429+441+450+451+115+439+431)
+show sticks, fadresidues
+select ttdresidues, (c. A and i. 265-268+378+403+409+419+414+415+422)
+show sticks, ttdresidues
 
 ## make sure water are spheres and model color instead of red (from atomic colouring) ###
 #as spheres, r. hoh
