@@ -21,13 +21,13 @@ color atomic, (not elem C)
 
 load 3ps_deposit.pdb, 3ps
 
-color limegreen, 3ps
+color magenta, 3ps
 color atomic, (not elem C) 
 
 load 3ps_grid.map, 3ps_FoFomap
 
-isomesh 3ps_FoFomap_pos, 3ps_FoFomap, 4, 3ps, carve=2.4
-isomesh 3ps_FoFomap_neg, 3ps_FoFomap, -4, 3ps, carve=2.4
+isomesh 3ps_FoFomap_pos, 3ps_FoFomap, 4.5, 3ps, carve=2.4
+isomesh 3ps_FoFomap_neg, 3ps_FoFomap, -4.5, 3ps, carve=2.4
 color orange, 3ps_FoFomap_pos
 color blue, 3ps_FoFomap_neg
 
@@ -44,17 +44,25 @@ show sticks, ttdresidues
 
 ## make sure water are spheres and model color instead of red (from atomic colouring) ###
 #as spheres, r. hoh
-hide ////HOH 
-select ////HOH within 5. of ////FDA or ///C+E/7+8
+hide ////HOH
+hide ////SO4
+select ////HOH within 4. of ///A/FDA or ///C/7+8
 show sphere, sele
 set sphere_scale, 0.2
 colour gray80, dark and c. W
 colour red, 3ps and c. W
 
 set cartoon_side_chain_helper, on
-set mesh_width, 0.3
+set mesh_width, 1.0
 set mesh_quality, 6
 set fog, 0.5
+
+### spherical ROI
+
+select * within 7. of ///A/FDA or ///C/7+8
+hide sticks, not sele
+hide cartoon, not sele
+set cartoon_gap_cutoff, 0
 
 #### set view to look at FAD ##### 
 
