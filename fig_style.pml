@@ -8,7 +8,7 @@ as cartoon
 set cartoon_side_chain_helper, off
 set cartoon_rect_length, 0.7
 set cartoon_oval_length, 0.7
-set stick_radius, 0.15 # tjl
+set stick_radius, 0.15
 set cartoon_transparency, 0.7
 
 ## loading dark structure ## 
@@ -17,7 +17,7 @@ load superdark_deposit.pdb, dark
 color gray80, dark
 color atomic, (not elem C) 
 
-### loading and visualising 3 ps model and FoFo map ###
+## loading and visualising 3 ps model and FoFo map ##
 
 load 3ps_deposit.pdb, 3ps
 
@@ -32,7 +32,7 @@ color orange, 3ps_FoFomap_pos
 color blue, 3ps_FoFomap_neg
 
 
-### waters
+## waters ##
 hide ////HOH 
 select ////HOH within 5. of ////FDA or ///C+E/7+8
 show sphere, sele
@@ -68,9 +68,5 @@ set_view (\
     14.991762161,   12.919754028,   -4.758465290,\
     50.456428528,   60.392276764,  -20.000000000 )
 
-set ray_shadows, 0 # tjl
-
-
+set ray_shadows, 0 
 #set ray_trace_mode, on
-
-
