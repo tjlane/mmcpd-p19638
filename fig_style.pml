@@ -23,7 +23,7 @@ color atomic, (not elem C)
 ## loading and visualising 3 ps model and FoFo map ##
 
 load 3ps_deposit.pdb, 3ps
-color limegreen, 3ps
+color purple, 3ps
 
 
 ## coloring and selections, protein ##
@@ -56,7 +56,14 @@ colour gray80, dark and c. W
 colour red, 3ps and c. W
 
 
-## map visualization ##
+## All maps ##
+
+set mesh_width, 0.6
+set mesh_quality, 6
+set fog, 0.5
+
+
+## DED map visualization ##
 
 load 3ps_grid.map, 3ps_FoFomap
 
@@ -66,11 +73,14 @@ map_double 3ps_FoFomap
 isomesh 3ps_FoFomap_pos, 3ps_FoFomap, 5, 3ps, selection=FAD, buffer=0
 isomesh 3ps_FoFomap_neg, 3ps_FoFomap, -5, 3ps, selection=FAD, buffer=0
 color orange, 3ps_FoFomap_pos
-color blue, 3ps_FoFomap_neg
+color teal, 3ps_FoFomap_neg
 
-set mesh_width, 0.5
-set mesh_quality, 6
-set fog, 1.0
+
+## standard map visualization ##
+
+# load 3ps_2fofc.map, 3ps_2FoFcmap
+# isomesh 2fofc, 3ps_2fofc, 2.0, 3ps, selection=/3ps//W/99+101, carve=2.0
+# color grey90, 2fofc
 
 
 ## spherical ROI ##
@@ -83,7 +93,8 @@ set cartoon_gap_cutoff, 0
 
 ## misc ##
 
-#hide label, measure*
+hide label, measure*
+set ray_shadows, 0 
 
 
 ## set view to look at FAD ##
@@ -96,6 +107,5 @@ set_view (\
     16.262737274,   15.801385880,   -3.937240601,\
    -31.215253830,  142.680191040,  -20.000000000 )
 
-set ray_shadows, 0 
 draw 2048,2048
 #set ray_trace_mode, on
