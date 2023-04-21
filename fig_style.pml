@@ -52,8 +52,8 @@ select ttdwater, ////HOH within 4. of ///C/7+8
 show sphere, ttdwater
 
 set sphere_scale, 0.2
-colour gray80, dark and c. W
-colour red, 3ps and c. W
+colour gray90, dark and c. W
+colour purple, 3ps and c. W
 
 
 ## All maps ##
