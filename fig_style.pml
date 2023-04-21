@@ -16,7 +16,7 @@ set cartoon_transparency, 0.7
 ## loading dark structure ## 
 
 load superdark_deposit.pdb, dark
-color gray80, dark
+color gray90, dark
 color atomic, (not elem C) 
 
 
@@ -72,8 +72,8 @@ map_double 3ps_FoFomap
 
 isomesh 3ps_FoFomap_pos, 3ps_FoFomap, 5, 3ps, selection=FAD, buffer=0
 isomesh 3ps_FoFomap_neg, 3ps_FoFomap, -5, 3ps, selection=FAD, buffer=0
-color orange, 3ps_FoFomap_pos
-color teal, 3ps_FoFomap_neg
+color teal, 3ps_FoFomap_pos
+color orange, 3ps_FoFomap_neg
 
 
 ## standard map visualization ##
