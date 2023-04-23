@@ -139,7 +139,7 @@ def generic_distance(trj, chain1, res1, name1, chain2, res2, name2):
         sele = trj.top.select(atom_sele)
 
         if len(sele) == 0:
-            print(atom_sele, sele)
+            #print(atom_sele, sele)
             return -1
         assert len(sele) == 1, sele
 
@@ -260,7 +260,10 @@ def main():
 
         rows.append(payload)
 
-    print(pd.DataFrame(rows))
+    df = pd.DataFrame(rows)
+    df.to_csv('pl-geoms.csv')
+    print(df)
+    print('wrote --> pl-geoms.csv')
 
     return
 
