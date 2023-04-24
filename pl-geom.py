@@ -26,6 +26,24 @@ FAD_BENZENE = ["C6", "C7", "C8", "C9", "C9A", "C5X"]
 FAD_PYRIMIDINE = ["C4X", "C10", "N1", "C2", "N3", "C4"]
 FAD_AXIS = ["N5", "N10"]
 
+NINA_DISTS = [
+    ["C", "T8", "O4", "A", "FDA", "N6A",],
+    ["A", "R256", "NH1", "C", "T8", "O2T",],
+    ["A", "R256", "NH1", "C", "T8", "O2",],
+    ["A", "E301", "OE1", "C", "T7", "N3",],
+    ["A", "E301", "OE2", "C", "T8", "O4",],
+    ["A", "E301", "OE2", "C", "T8", "O4T",],
+    ["A", "N257", "OD1", "A", "R256", "NH1",],
+    ["A", "FDA", "N5", "A", "N403", "OD1",],
+    ["A", "FDA", "O4", "A", "N403", "ND2",],
+    ["A", "G415", "CA", "A", "FDA", "N5",],
+    ["A", "R378", "NH1", "A", "FDA", "N5",],
+    ["A", "R378", "NH1", "A", "D407", "OE2",],
+    ["A", "R378", "NH1", "A", "D409", "OD2",],
+    ["A", "D409", "OD2", "A", "R378", "NH2",],
+]
+
+
 def plane_from_points(xyz):
 
     # barycenter of the points
@@ -76,7 +94,7 @@ def TT_angle(trj):
     return angle
 
 
-def bond_distances(trj, carbon_index):
+def ttd_bond_distances(trj, carbon_index):
 
     atom_sele = f'name C{carbon_index} or name C{carbon_index}T'
     selection = f'((chainid 2) or (chainid 3)) and ((resname TTD) or (resname TT6)) and ({atom_sele})'
@@ -91,6 +109,43 @@ def bond_distances(trj, carbon_index):
 
     xyz = trj.xyz[0,sele,:]
     dist = np.linalg.norm(xyz[0,:] - xyz[1,:]) * 10.0 # mdtraj uses nm
+
+    return dist
+
+
+def generic_distance(trj, chain1, res1, name1, chain2, res2, name2):
+
+    chain_map = {
+        'A': '(chainid 0)',
+        'C': '((chainid 2) or (chainid 3))'
+    }
+
+    xyzs = []
+
+    for chain, res, name in [[chain1, res1, name1], [chain2, res2, name2]]:
+
+        if res.startswith('T'):
+            atom_sele = f'(name {name}) and (resname DT) and (resSeq {res[1:]}) and ' + chain_map[chain]
+            if len(trj.top.select(atom_sele)) == 0:
+                atom_sele = f'(name {name}) and (resname TTD) and (resSeq 7) and ' + chain_map[chain]
+            if len(trj.top.select(atom_sele)) == 0:
+                atom_sele = f'(name {name}) and (resname TT6) and (resSeq 7) and ' + chain_map[chain]
+
+        elif res == 'FDA':
+            atom_sele = f'(name {name}) and (resname FDA) and ' + chain_map[chain]
+        else:
+            atom_sele = f'(name {name}) and (resSeq {res[1:]}) and ' + chain_map[chain]
+
+        sele = trj.top.select(atom_sele)
+
+        if len(sele) == 0:
+            #print(atom_sele, sele)
+            return -1
+        assert len(sele) == 1, sele
+
+        xyzs.append(trj.xyz[0,sele,:])
+
+    dist = np.linalg.norm(xyzs[0] - xyzs[1]) * 10.0 # mdtraj uses nm
 
     return dist
 
@@ -174,9 +229,10 @@ def test():
 
 def example():
     trj = md.load_pdb('./pltest.pdb')
+    print(trj.top.to_dataframe())
     print(TT_angle(trj))
-    print(bond_distances(trj, '5'))
-    print(bond_distances(trj, '6'))
+    print(ttd_bond_distances(trj, '5'))
+    print(ttd_bond_distances(trj, '6'))
     print(FAD_ring_angle(trj))
 
 
@@ -189,16 +245,25 @@ def main():
     rows = []
     for path in args.pdbfiles:
         trj = md.load_pdb(path)
-        rows.append({
+        payload = {
             'filename' : path,
-            'C5-C5 dist' : bond_distances(trj, '5'),
-            'C6-C6 dist' : bond_distances(trj, '6'),
+            'C5-C5 dist' : ttd_bond_distances(trj, '5'),
+            'C6-C6 dist' : ttd_bond_distances(trj, '6'),
             'TTD angle' : TT_angle(trj),
             'FAD angle' : FAD_ring_angle(trj),
             'smpl FAD angle' : simple_FAD_ring_angle(trj),
-        })
+        }
 
-    print(pd.DataFrame(rows))
+        for nd in NINA_DISTS:
+            header = '/'.join(nd[:3]) + '-' + '/'.join(nd[3:])
+            payload[header] = generic_distance(trj, *nd)
+
+        rows.append(payload)
+
+    df = pd.DataFrame(rows)
+    df.to_csv('pl-geoms.csv')
+    print(df)
+    print('wrote --> pl-geoms.csv')
 
     return
 
