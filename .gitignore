@@ -1,3 +1,4 @@
+*.DS_Store
 *.ccp4
 *.mtz
 figures/*
