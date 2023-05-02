@@ -214,6 +214,37 @@ def simple_FAD_ring_angle(trj):
     return butterfly_angle
 
 
+def fad_asu_angles(trj):
+
+    n5_n10_vectors = []
+
+    expected_atoms = [2, 2]
+
+    for i,atoms in enumerate([FAD_AXIS, FAD_AXIS]):
+
+        atom_sele = 'name ' + ' or name '.join(atoms)
+        selection = f'(chainid {i}) and (resname FDA) and ({atom_sele})'
+        sele = trj.top.select(selection)
+
+        #print([trj.top.atom(ai) for ai in sele])
+
+        if (len(sele) != expected_atoms[i]) and (i == 1):
+            selection = f'(chainid {i+1}) and (resname FDA) and ({atom_sele})'
+            sele = trj.top.select(selection)
+
+        assert len(sele) == expected_atoms[i], len(sele)
+
+        xyz = trj.xyz[0,sele,:]
+        n5_n10_vectors.append(xyz[1] - xyz[0])
+
+    fad_fad_angle = angle_between_vectors(
+        n5_n10_vectors[0],
+        n5_n10_vectors[1]
+    )
+
+    return fad_fad_angle
+
+
 def test():
     xyz = np.array([[0., 0., 0.],
                     [1., 0., 0.],
@@ -252,6 +283,7 @@ def main():
             'TTD angle' : TT_angle(trj),
             'FAD angle' : FAD_ring_angle(trj),
             'smpl FAD angle' : simple_FAD_ring_angle(trj),
+            'FAD-A to FAD-B angle' : fad_asu_angles(trj),
         }
 
         for nd in NINA_DISTS:
