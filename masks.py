@@ -61,9 +61,40 @@ def TT_chainB_region_only(grid : gm.FloatGrid) -> gm.FloatGrid:
 
 
 def FDA_chainA_region_only(grid : gm.FloatGrid) -> gm.FloatGrid:
-    FAD_N10_XYZ = np.array([16.950, 14.541,  -3.135])
-    radius = 7.0
-    masked_grid = mask_map(grid, FAD_N10_XYZ, radius)
+
+    #FAD_N10_XYZ = np.array([16.950, 14.541,  -3.135])
+    #radius = 7.0
+    #masked_grid = mask_map(grid, FAD_N10_XYZ, radius)
+
+    FAD_C8_XYZ = np.array([17.435, 11.170, -1.822])
+    FAD_C5X_XYZ = np.array([15.794,  12.513,  -3.644])
+    FAD_C10_XYZ = np.array([16.262,  15.189,  -4.233])
+    FAD_N3_XYZ = np.array([15.132,  16.315,  -6.345])
+
+    radius = 5.0
+    masked_grid_1 = mask_map(grid, (FAD_C8_XYZ + FAD_C5X_XYZ) / 2.0, radius)
+    masked_grid_2 = mask_map(grid, (FAD_C10_XYZ + FAD_N3_XYZ) / 2.0, radius)
+    masked_grid = gm.FloatGrid( 
+        np.array(masked_grid_1, copy=True) + np.array(masked_grid_2, copy=True)
+    )
+
+    return masked_grid
+
+
+def FDA_chainB_region_only(grid : gm.FloatGrid) -> gm.FloatGrid:
+
+    FAD_C8_XYZ = np.array([11.683, -13.237, -28.810])
+    FAD_C5X_XYZ = np.array([9.539, -13.599, -27.054])
+    FAD_C10_XYZ = np.array([8.516, -16.137, -26.600])
+    FAD_N3_XYZ = np.array([6.889, -16.591, -24.553])
+
+    radius = 5.0
+    masked_grid_1 = mask_map(grid, (FAD_C8_XYZ + FAD_C5X_XYZ) / 2.0, radius)
+    masked_grid_2 = mask_map(grid, (FAD_C10_XYZ + FAD_N3_XYZ) / 2.0, radius)
+    masked_grid = gm.FloatGrid( 
+        np.array(masked_grid_1, copy=True) + np.array(masked_grid_2, copy=True)
+    )
+
     return masked_grid
 
 

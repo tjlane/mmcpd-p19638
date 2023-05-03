@@ -54,12 +54,71 @@ class LinearKinetic:
         return k_opt
 
 
+class LaserPower:
+
+    def __init__(self, *, pulse_length, powers, absorbances):
+        self.pulse_length = pulse_length
+        self.powers = powers
+        self.absorbances = absorbances
+        self.S0 = np.array([1.0, 0.0, 0.0])
+        return
+
+    @staticmethod
+    def dS(S, power, sigma_1, sigma_n):
+        """
+        returns dS/dt at p
+        """
+
+        dS0 = power * sigma_1 * S[1] - power * sigma_1 * S[0]
+        dS1 = power * sigma_1 * S[0] - power * sigma_1 * S[1] - power * sigma_n * S[1] # + power * sigma_n * S[2]
+        dS2 = power * sigma_n * S[1] # - power * sigma_n * S[2]
+
+        dSdt = np.array([dS0, dS1, dS2])
+
+        return dSdt
+
+    def estimate(self, sigma_1, sigma_n, return_all_states=False):
+        result = []
+        for power in self.powers:
+            dS_closure = lambda S, t: self.dS(S, power, sigma_1, sigma_n)
+            power_est = integrate.odeint(dS_closure, self.S0, [0, self.pulse_length])
+            if return_all_states:
+                result.append(power_est[1,:])
+            else:
+                result.append(power_est[1,1])  # only (second time point, S1)
+        return np.array(result)
+
+    def residual(self, params):
+        r = self.absorbances - params[:-2,None] * self.estimate(*params[-2:])
+        return r.flatten()
+
+    def fit(self, *, params0):
+        """ params : amplitudes, sigma_1, sigma_n """
+
+        p_opt, status = optimize.leastsq(self.residual, np.array(params0))
+        final_residual = np.sum(np.square(self.residual(p_opt)))
+
+        print('residual:', final_residual)
+
+        return p_opt
+    
+
 if __name__ == '__main__':
 
-    k = 1.5
-    t = np.logspace(-3, 1, 100)
-    p_obs = np.array([ np.exp(-k * t), 1 - np.exp(-k * t) ])
+    # k = 1.5
+    # t = np.logspace(-3, 1, 100)
+    # p_obs = np.array([ np.exp(-k * t), 1 - np.exp(-k * t) ])
 
-    lk = LinearKinetic(n_states=2, times=t, populations=p_obs.T)
-    results = lk.fit(k0=[0.5])
-    print(results)
+    # lk = LinearKinetic(n_states=2, times=t, populations=p_obs.T)
+    # results = lk.fit(k0=[0.5])
+    # print(results)
+
+    powers = np.linspace(5, 500, 10)
+    obs_abs = np.log(powers)
+    #obs_abs /= obs_abs.max() * 2.0
+    pulse_len = 0.001
+
+    lp = LaserPower(pulse_length=pulse_len, powers=powers, s1_population=obs_abs)
+    # print(lp.dS([0.9, 0.1, 0.0], 10.0, 1.0, 1.0))
+    print(lp.estimate(1.0, 0.5, return_all_states=True))
+    print(lp.fit(params0=[2.0, 1.0, 1.0]))
