@@ -98,6 +98,16 @@ def FDA_chainB_region_only(grid : gm.FloatGrid) -> gm.FloatGrid:
     return masked_grid
 
 
+def FDA_both_chains(grid: gm.FloatGrid) -> gm.FloatGrid:
+
+    masked_grid = gm.FloatGrid( 
+        np.array(FDA_chainA_region_only(grid), copy=True) + \
+        np.array(FDA_chainB_region_only(grid), copy=True)
+    )
+
+    return masked_grid
+
+
 def FDA_and_TT_chainA_region_only(grid : gm.FloatGrid) -> gm.FloatGrid:
     FAD_N6A_XYZ = np.array([21.113, 14.578,  -0.602])
     radius = 11.0
