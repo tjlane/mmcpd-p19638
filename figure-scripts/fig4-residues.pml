@@ -124,11 +124,12 @@ distance /100us//D/DA`9/N3, /100us//A/ARG`429/NH2
 distance /100us//D/DA`8/N1, /100us//A/ARG`429/NH1
 distance /100us//C/DG`12/C6, /100us//A/ARG`450/NH2
 distance /100us//C/DG`12/N7, /100us//A/ARG`450/NH1
+distance /100us//C/DG`10/P, /100us//A/LYS`451/NZ
 
 distance /dark//A/ARG`441/NH1, /dark//C/TTD`7/O4P
 distance /dark//A/ARG`441/NH2, /dark//C/TTD`7/O4P
-color red, dist08
 color red, dist09
+color red, dist10
 
 hide label, dist*
 set ray_shadows, 0 
