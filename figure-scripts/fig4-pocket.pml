@@ -17,9 +17,9 @@ set cartoon_transparency, 0.7
 ## loading dark structure ## 
 
 # load 1us_deposit.pdb, pl
-#load 10us_deposit.pdb, pl
+load 10us_deposit.pdb, pl
 #load 30us_deposit.pdb, pl
-load 100us_deposit.pdb, pl
+#load 100us_deposit.pdb, pl
 
 # color gray90, 1us
 # color gray90, 10us
@@ -33,8 +33,6 @@ color gray90, pl
 
 ## coloring and selections, protein ##
 
-
-
 select TTD, (c. C and i. 7-8)
 show sticks, TTD
 select FAD, (c. A and r. FDA)
@@ -46,11 +44,6 @@ show sticks, DNA
 color purple, TTD
 
 color atomic, (not elem C) 
-
-# select ttdresidues, (c. A and i. 164+256+257+301+305+376+379+421+429+441+450+451+115+439+431)
-# show sticks, ttdresidues
-# select fadresidues, (c. A and i. 265-268+378+403+409+414+415+422)
-# show sticks, fadresidues
 
 hide sticks, ///B
 hide sticks, ////115
@@ -76,7 +69,7 @@ show surface, chainA
 hide ////HOH
 hide ////SO4
 
-select ttdwater, ////HOH within 5. of ///C/7+8
+select ttdwater, ////HOH within 10. of ///C/7+8
 show sphere, ttdwater
 
 set sphere_scale, 0.2
@@ -100,20 +93,13 @@ set ray_trace_mode, 1
 ## set view to look at FAD ##
 
 deselect
-# set_view (\
-#      0.717704475,    0.692083001,    0.076590940,\
-#     -0.696316302,    0.713127732,    0.081046805,\
-#      0.001470000,   -0.111490831,    0.993742228,\
-#      0.000786628,   -0.001140254,  -78.950065613,\
-#     30.157497406,   13.374934196,    6.671710014,\
-#     32.058479309,  125.767204285,  -20.000000000 )
 
 set_view (\
-     0.568411410,    0.662006438,    0.488448501,\
-    -0.278531671,    0.713498056,   -0.642897904,\
-    -0.774119198,    0.229402512,    0.589958608,\
-    -0.000846151,   -0.001308002,  -63.410465240,\
-    27.606801987,   11.363485336,    8.861503601,\
-    24.909330368,  101.477142334,  -20.000000000 )
+     0.746236622,    0.402381659,    0.530231655,\
+    -0.271716326,    0.911343157,   -0.309194654,\
+    -0.607641697,    0.086677194,    0.789425969,\
+    -0.001355413,   -0.001100931,  -49.423862457,\
+    28.661016464,   11.776062965,    8.546073914,\
+    10.811647415,   87.379455566,  -20.000000000 )
 
 ray 2048,2048
