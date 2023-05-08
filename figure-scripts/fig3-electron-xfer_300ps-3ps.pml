@@ -20,47 +20,42 @@ set valence, 0
 
 load 3ps_deposit.pdb, 3ps
 color gray90, 3ps
-color atomic, (not elem C) 
 
-load 300ps_deposit.pdb, 300ps
-color purple, 300ps
+# load superdark_deposit.pdb, dark
+# color gray90, dark
+
+load 1ns_deposit.pdb, 1ns
+color purple, 1ns
 
 
 ## coloring and selections, protein ##
+
+color skyblue, ///C/TT6
+color lightblue, ///C/TT6/C4R+C5'+C3R+C2'+C1'
+color lightblue, ///C/TT6/C1R+C3'+CA+C2R+C4'+C5R
+hide /dark//C/TTD
 
 color atomic, (not elem C) 
 
 hide everything, c. C and i. 5-9
 select TTD, (c. C and i. 7-8)
 show sticks, TTD
-select FAD, (c. A and r. FDA)
-show sticks, FAD
+# select FAD, (c. A and r. FDA)
+# show sticks, FAD
 
-select ttdresidues, (c. A and i. 256+257+301+305+376+379)
+select ttdresidues, (c. A and i. 256+257+301+305+379)
 show sticks, ttdresidues
-select fadresidues, (c. A and i. 265-268+414+415)
-show sticks, fadresidues
+# select fadresidues, (c. A and i. 265-268+414+415)
+# show sticks, fadresidues
 
-hide ///B/FDA
+hide ////FDA
+hide sticks, ///C/TTD
 
 
 ## coloring and selections, waters ##
 
 hide ////HOH
 hide ////SO4
-#select fadwater, ////HOH within 3.5 of ///A/FDA 
-#show sphere, fadwater
-#select ttdwater, ////HOH within 6. of ///C/7+8
-
-# + /3ns//W/41 + /3ps//W/37
-# select ttdwater, /3ps//W/40 
-# show sphere, ttdwater
-
-
-set sphere_scale, 0.2
-colour gray90, 3ps and c. W
-colour red, 300ps and c. W
-
 
 ## All maps ##
 
@@ -70,34 +65,25 @@ set fog, 2
 
 ## DED map visualization ##
 
+#load 300ps_fofo.map, fofo_map
 load 300ps-3ps_fofo.map, fofo_map
 map_double fofo_map
 
-isomesh fofo_pos, fofo_map, 3.5, 300ps, selection=(TTD or ttdresidues or FAD), carve=3
-isomesh fofo_neg, fofo_map, -3.5, 300ps, selection=(TTD or ttdresidues or FAD), carve=3
+isomesh fofo_pos, fofo_map, 3.0, 300ps, selection=(TTD or ttdresidues), carve=2.5
+isomesh fofo_neg, fofo_map, -3.0, 300ps, selection=(TTD or ttdresidues), carve=2.5
 color teal, fofo_pos
 color orange, fofo_neg
 
+load 1ns_ttd_polder.ccp4, polder
 
-## standard map visualization ##
-
-# load 3ps_2fofc.map, 3ps_2FoFcmap
-# isomesh 2fofc, 3ps_2fofc, 2.0, 3ps, selection=/3ps//W/99+101, carve=2.0
-# color grey90, 2fofc
-
-
-## spherical ROI ##
-
-# select * within 8. of ///C/7+8
-# hide sticks, not sele
-# hide cartoon, not sele
-# set cartoon_gap_cutoff, 0
+isomesh polder_mesh, polder, 6.0, 3ps, selection=TTD, carve=2.5
+map_double polder
+color skyblue, polder_mesh
 
 hide cartoon
 
 
 ## misc ##
-
 hide label, measure*
 set ray_shadows, 0 
 
@@ -110,12 +96,12 @@ hide label
 deselect
 
 set_view (\
-    -0.873361111,   -0.144526005,   -0.465077043,\
-    -0.406422466,    0.742440343,    0.532496691,\
-     0.268326670,    0.654098153,   -0.707168400,\
-     0.001421881,   -0.000339076,  -49.161575317,\
-    24.705289841,   14.229559898,    5.704463482,\
-    33.767406464,   64.939041138,  -20.000000000 )
+     0.831430852,   -0.451909214,    0.323170573,\
+     0.433798343,    0.891472995,    0.130546108,\
+    -0.347089738,    0.031656615,    0.937258959,\
+    -0.001511747,   -0.000103580,  -68.545837402,\
+    20.899427414,   14.103139877,    1.151998043,\
+    44.152343750,   93.272956848,  -20.000000000 )
 
-ray 2048,2048
+#ray 2048,2048
 #set ray_trace_mode, on
