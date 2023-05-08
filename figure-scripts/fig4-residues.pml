@@ -46,6 +46,7 @@ select comp, (c. D and i. 4-10)
 
 color atomic, (not elem C) 
 color lightblue, ///C+D
+color skyblue, ///C/7+8/C2+C3+C4+C5+C6+C7
 color grey90, /dark//C/7+8
 color atomic, (not elem C and TTD) 
 color atomic, (elem P)
