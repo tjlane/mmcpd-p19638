@@ -17,9 +17,9 @@ set cartoon_transparency, 0.7
 ## loading dark structure ## 
 
 # load 1us_deposit.pdb, pl
-load 10us_deposit.pdb, pl
+#load 10us_deposit.pdb, pl
 #load 30us_deposit.pdb, pl
-#load 100us_deposit.pdb, pl
+load 100us_deposit.pdb, pl
 
 # color gray90, 1us
 # color gray90, 10us
@@ -35,13 +35,13 @@ color gray90, pl
 
 select TTD, (c. C and i. 7-8)
 show sticks, TTD
-select FAD, (c. A and r. FDA)
-show sticks, FAD
 select DNA, (c. C and i. 1-14)
 show sticks, DNA
 
 # color grey90, DNA
-color purple, TTD
+color lightblue, TTD
+color lightblue, DNA
+color skyblue, ///C/7+8/C2+C3+C4+C5+C6+C7
 
 color atomic, (not elem C) 
 
@@ -73,9 +73,6 @@ select ttdwater, ////HOH within 10. of ///C/7+8
 show sphere, ttdwater
 
 set sphere_scale, 0.2
-colour gray90, dark and c. W
-colour purple, 3ps and c. W
-
 
 ## All maps ##
 
