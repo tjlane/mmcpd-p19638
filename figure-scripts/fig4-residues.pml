@@ -16,8 +16,9 @@ set cartoon_transparency, 0.7
 
 ## loading dark structure ## 
 
-load 3ns_deposit.pdb, 3ns
-color gray90, 3ns
+# load 3ns_deposit.pdb, 3ns
+load superdark_deposit.pdb, dark
+color gray90, dark
 color atomic, (not elem C) 
 
 
@@ -35,24 +36,34 @@ color purple, 100us
 
 ## coloring and selections, protein ##
 
-color atomic, (not elem C) 
-
-hide everything, c. C and i. 6-12
-select TTD, (c. C and i. 6-12)
+select TTD, (c. C and i. 7-8)
 show sticks, TTD
+select DNA, (c. C and i. 6-12)
+# show sticks, DNA
 select comp, (c. D and i. 4-10)
-show sticks, comp
-# select FAD, (c. A and r. FDA)
-# show sticks, FAD
+# show sticks, comp
 
-select ttdresidues, (c. A and i. 164+256+257+301+305+376+379+421+429+441+450+451+115+439+431)
+
+color atomic, (not elem C) 
+color lightblue, ///C+D
+color grey90, /dark//C/7+8
+color atomic, (not elem C and TTD) 
+color atomic, (elem P)
+
+select ttdresidues, (c. A and i. 164+429+441+450+451+115+439+431)
 show sticks, ttdresidues
-# select fadresidues, (c. A and i. 265-268+378+403+409+414+415+422)
-# show sticks, fadresidues
 
+# hide /dark//C/7+8
 hide ////FDA
 hide ////115
 hide cartoon
+
+set cartoon_ring_mode, 2
+show cartoon, /100us//C+D
+
+select dna_shown, /100us//C/9+10+12 or /100us//D/8+9+10
+show sticks, dna_shown
+color atomic, (not elem C and dna_shown)
 
 ## coloring and selections, waters ##
 
@@ -69,6 +80,7 @@ set sphere_scale, 0.2
 
 
 ## All maps ##
+
 
 set mesh_width, 0.6
 set mesh_quality, 6
@@ -104,8 +116,21 @@ set fog, 0.5
 
 
 ## misc ##
+distance /100us//C/DG`10/P  /100us//A/LYS`451/NZ
+distance /100us//C/DC`9/P , /100us//A/LYS`451/NZ
+distance /100us//A/ARG`164/NH1, /100us//C/DT`7/P`A
+distance /100us//D/DG`10/P, /100us//A/LYS`439/NZ
+distance /100us//D/DA`9/N3, /100us//A/ARG`429/NH2
+distance /100us//D/DA`8/N1, /100us//A/ARG`429/NH1
+distance /100us//C/DG`12/C6, /100us//A/ARG`450/NH2
+distance /100us//C/DG`12/N7, /100us//A/ARG`450/NH1
 
-hide label, measure*
+distance /dark//A/ARG`441/NH1, /dark//C/TTD`7/O4P
+distance /dark//A/ARG`441/NH2, /dark//C/TTD`7/O4P
+color red, dist08
+color red, dist09
+
+hide label, dist*
 set ray_shadows, 0 
 
 
@@ -113,11 +138,12 @@ set ray_shadows, 0
 
 deselect
 set_view (\
-     0.131047308,   -0.952364087,    0.275291294,\
-     0.279101938,    0.301894784,    0.911553741,\
-    -0.951242685,   -0.042620689,    0.305378735,\
-    -0.000751114,    0.000274947, -123.109054565,\
-    26.435565948,   14.342269897,    9.170843124,\
-    27.435174942,  218.720230103,  -20.000000000 )
+     0.232944414,   -0.621391177,    0.748037875,\
+     0.959642231,    0.271393269,   -0.073386699,\
+    -0.157404408,    0.734954476,    0.659539163,\
+    -0.000286740,    0.000291985, -106.755409241,\
+    23.253513336,    6.587289333,    7.462270737,\
+    11.010910034,  202.295989990,  -20.000000000 )
 
-#ray 2048,2048
+set ray_trace_mode, 1
+ray 2048,2048
