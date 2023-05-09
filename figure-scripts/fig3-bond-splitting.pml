@@ -36,15 +36,13 @@ color atomic, (not elem C)
 hide everything, c. C and i. 5-9
 select TTD, (c. C and (i. 7 or i. 8))
 show sticks, TTD
-# set stick_transparency, 0.8, TTD
-
-# select FAD, (c. A and r. FDA)
-# show sticks, FAD
 
 select ttdresidues, (c. A and i. 256+257+301+305+379)
 show sticks, ttdresidues
 # select fadresidues, (c. A and i. 378+403+409+414)
 # show sticks, fadresidues
+
+hide sticks, ///C/7/O5 or ///C/7/P or ///C/7/OP2 or ///C/7/OP1
 
 
 ## coloring and selections, waters ##
@@ -54,6 +52,11 @@ hide ////SO4
 #select fadwater, ////HOH within 3.5 of ///A/FDA 
 #show sphere, fadwater
 #select ttdwater, ////HOH within 6. of ///C/7+8
+
+color skyblue, /3ns//C/7+8
+color lightblue, /3ns//C/7+8/C4R+C5'+C3R+C2'+C1'
+color lightblue, /3ns//C/7+8/C1R+C3'+CA+C2R+C4'+C5R
+color atomic, (not elem C) 
 
 # + /3ns//W/41 + /3ps//W/37
 select ttdwater, /3ps//W/40 
@@ -78,25 +81,11 @@ set fog, 2
 load 3ns_fofo.map, fofo_map
 map_double fofo_map
 
-isomesh fofo_pos, fofo_map, 3.5, 3ns, selection=(TTD or ttdwater or ttdresidues), carve=2.1
-isomesh fofo_neg, fofo_map, -3.5, 3ns, selection=(TTD or ttdwater or ttdresidues), carve=2.1
+isomesh fofo_pos, fofo_map, 4, 3ns, selection=(TTD or ttdwater or ttdresidues), carve=2
+isomesh fofo_neg, fofo_map, -4, 3ns, selection=(TTD or ttdwater or ttdresidues), carve=2
 color teal, fofo_pos
 color orange, fofo_neg
 
-
-## standard map visualization ##
-
-# load 3ps_2fofc.map, 3ps_2FoFcmap
-# isomesh 2fofc, 3ps_2fofc, 2.0, 3ps, selection=/3ps//W/99+101, carve=2.0
-# color grey90, 2fofc
-
-
-## spherical ROI ##
-
-# select * within 8. of ///C/7+8
-# hide sticks, not sele
-# hide cartoon, not sele
-# set cartoon_gap_cutoff, 0
 
 hide cartoon
 
@@ -130,12 +119,12 @@ hide ////FDA
 deselect
 
 set_view (\
-    -0.873361111,   -0.144526005,   -0.465077043,\
-    -0.406422466,    0.742440343,    0.532496691,\
-     0.268326670,    0.654098153,   -0.707168400,\
-     0.001421881,   -0.000339076,  -49.161575317,\
-    24.705289841,   14.229559898,    5.704463482,\
-    33.767406464,   64.939041138,  -20.000000000 )
+    -0.900776923,   -0.175328746,   -0.397249669,\
+    -0.367587030,    0.794894397,    0.482672065,\
+     0.231141806,    0.580822349,   -0.780478239,\
+     0.001312025,   -0.000161655,  -49.159175873,\
+    23.613681793,   13.712326050,    5.704610825,\
+    37.000701904,   61.705692291,  -20.000000000 )
 
 ray 2048,2048
 #set ray_trace_mode, on
