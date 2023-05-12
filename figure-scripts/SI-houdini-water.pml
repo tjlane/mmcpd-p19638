@@ -27,14 +27,16 @@ load superdark_deposit.pdb, dark
 # load 10us_deposit.pdb, 10us
 
 # load superdark_deposit_2fofo.map, dens
-# load 3ps_deposit_2fofo.map, dens
+load 3ps_deposit_2fofo.map, dens
 # load 300ps_deposit_2fofo.map, dens
 # load 1ns_deposit_2fofo.map, dens
 # load 3ns_deposit_2fofo.map, dens
 # load 10ns_deposit_2fofo.map, dens
 # load 30ns_deposit_2fofo.map, dens
 # load 1us_deposit_2fofo.map, dens
-load 10us_deposit_2fofo.map, dens
+# load 10us_deposit_2fofo.map, dens
+# load 30us_deposit_2fofo.map, dens
+# load 100us_deposit_2fofo.map, dens
 
 color gray90, all
 
@@ -54,7 +56,8 @@ hide cartoon
 hide ////HOH
 hide ////SO4
 
-select water, ////HOH within 3. of FAD
+#select water, ////HOH within 6. of FAD
+select water, /dark//W/9+46+14+51+26+5+162+129+9
 show sphere, water
 
 set sphere_scale, 0.2
@@ -82,13 +85,23 @@ set ray_trace_mode, 1
 
 deselect
 
+# houdini water 1
+# set_view (\
+#     -0.248137891,    0.934826136,    0.253869772,\
+#      0.824866056,    0.066495135,    0.561384320,\
+#      0.507930458,    0.348725796,   -0.787609756,\
+#      0.000000000,    0.000000000,  -49.423862457,\
+#     17.706659317,   17.175621033,   -1.793716908,\
+#     43.389709473,   55.458168030,  -20.000000000 )
+
+# houdini water 2
 set_view (\
-    -0.248137891,    0.934826136,    0.253869772,\
-     0.824866056,    0.066495135,    0.561384320,\
-     0.507930458,    0.348725796,   -0.787609756,\
-     0.000000000,    0.000000000,  -49.423862457,\
-    17.706659317,   17.175621033,   -1.793716908,\
-    43.389709473,   55.458168030,  -20.000000000 )
+     0.449499130,    0.532948434,    0.716821432,\
+    -0.053269904,    0.817056417,   -0.574067593,\
+    -0.891646981,    0.219878465,    0.395663410,\
+    -0.001297981,   -0.000909101,  -58.444110870,\
+    19.183797836,   15.194115639,   -1.567492723,\
+    51.643764496,   64.965736389,  -20.000000000 )
 
 draw 2048,2048
 #ray 2048,2048
