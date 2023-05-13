@@ -17,17 +17,10 @@ set cartoon_transparency, 0.7
 ## loading dark structure ## 
 
 load superdark_deposit.pdb, dark
-# load 3ps_deposit.pdb, 3ps
-# load 300ps_deposit.pdb, 300ps
-# load 1ns_deposit.pdb, 1ns
-# load 3ns_deposit.pdb, 3ns
-# load 10ns_deposit.pdb, 10ns
-# load 30ns_deposit.pdb, 30ns
-# load 1us_deposit.pdb, 1us
-# load 10us_deposit.pdb, 10us
 
-# load superdark_deposit_2fofo.map, dens
-load 3ps_deposit_2fofo.map, dens
+
+load superdark_deposit_2fofo.map, dens
+# load 3ps_deposit_2fofo.map, dens
 # load 300ps_deposit_2fofo.map, dens
 # load 1ns_deposit_2fofo.map, dens
 # load 3ns_deposit_2fofo.map, dens
@@ -60,6 +53,8 @@ hide ////SO4
 select water, /dark//W/9+46+14+51+26+5+162+129+9
 show sphere, water
 
+select adenine, /dark//A/FDA/N9A+C8A+N7A+C5A+C4A+N3A+C2A+N1A+C6A+N6A
+
 set sphere_scale, 0.2
 
 ## All maps ##
@@ -69,7 +64,7 @@ set mesh_quality, 6
 set fog, 1
 
 
-isomesh dens_mesh, dens, 1.5, pl, selection=(FAD + water), carve=2.5
+isomesh dens_mesh, dens, 1.0, pl, selection=(water or adenine), carve=1.8
 color blue, dens_mesh
 
 map_double dens
