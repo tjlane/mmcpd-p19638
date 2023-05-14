@@ -39,7 +39,7 @@ select FAD, (c. A and r. FDA)
 show sticks, FAD
 
 select fadresidues, (c. A and i. 403)
-show sticks, fadresidues
+#show sticks, fadresidues
 
 hide cartoon
 
@@ -49,7 +49,7 @@ hide cartoon
 hide ////HOH
 hide ////SO4
 
-select waters, /dark//W/136+138+162 + /3ps//W/99+101
+select waters, /dark//W/136+138 + /3ps//W/99+101
 show sphere, waters  
 
 set sphere_scale, 0.2
