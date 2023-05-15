@@ -36,7 +36,7 @@ color purple, 100us
 
 ## coloring and selections, protein ##
 
-select TTD, (c. C and i. 7-8)
+select TTD, (c. C and i. 7-8) or (c. C and i. 9)
 show sticks, TTD
 select DNA, (c. C and i. 6-12)
 # show sticks, DNA
@@ -117,18 +117,20 @@ set fog, 0.5
 
 
 ## misc ##
-distance /100us//C/DG`10/P  /100us//A/LYS`451/NZ
-distance /100us//C/DC`9/P , /100us//A/LYS`451/NZ
+
 distance /100us//A/ARG`164/NH1, /100us//C/DT`7/P`A
 distance /100us//D/DG`10/P, /100us//A/LYS`439/NZ
 distance /100us//D/DA`9/N3, /100us//A/ARG`429/NH2
 distance /100us//D/DA`8/N1, /100us//A/ARG`429/NH1
 distance /100us//C/DG`12/C6, /100us//A/ARG`450/NH2
 distance /100us//C/DG`12/N7, /100us//A/ARG`450/NH1
+distance /100us//C/DG`10/P  /100us//A/LYS`451/NZ
 distance /100us//C/DG`10/P, /100us//A/LYS`451/NZ
 
-distance /dark//A/ARG`441/NH1, /dark//C/TTD`7/O4P
-distance /dark//A/ARG`441/NH2, /dark//C/TTD`7/O4P
+distance /100us//C/DC`9/P , /100us//A/LYS`451/NZ
+distance /100us//A/ARG`441/NH1, /100us//C/TTD`7/O4P
+distance /100us//A/ARG`441/NH2, /100us//C/TTD`7/O4P
+color red, dist08
 color red, dist09
 color red, dist10
 
