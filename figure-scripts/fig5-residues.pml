@@ -128,8 +128,8 @@ distance /100us//C/DG`10/P  /100us//A/LYS`451/NZ
 distance /100us//C/DG`10/P, /100us//A/LYS`451/NZ
 
 distance /100us//C/DC`9/P , /100us//A/LYS`451/NZ
-distance /100us//A/ARG`441/NH1, /100us//C/TTD`7/O4P
-distance /100us//A/ARG`441/NH2, /100us//C/TTD`7/O4P
+distance /100us//A/ARG`441/NH1, /100us//C/8/OP2
+distance /100us//A/ARG`441/NH2, /100us//C/8/OP2
 color red, dist08
 color red, dist09
 color red, dist10
