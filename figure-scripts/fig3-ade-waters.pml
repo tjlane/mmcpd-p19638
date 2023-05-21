@@ -31,14 +31,11 @@ hide ///B/FDA
 select FAD, ///A/FDA
 show sticks, FAD
 
-select grp162, ///A/414
-show sticks, grp162
-
-select grp26, ///A/256
-show sticks, grp26
+select residues, ///A/414 + ///A/256-257
+show sticks, residues
 
 select TTD, ///C/7+8
-#show sticks, TTD
+show sticks, TTD
 #set stick_transparency, 0.7, TTD
 
 color atomic, (not elem C) 
@@ -65,13 +62,13 @@ colour red, 3ps and c. W
 
 ## All maps ##
 
-set mesh_width, 0.5
+set mesh_width, 0.8
 set mesh_quality, 6
 set fog, 2
 
-isomesh dens_mesh, dens, 1.5, pl, selection=(water), carve=1.6
-color skyblue, dens_mesh
-map_double dens
+#isomesh dens_mesh, dens, 1.5, pl, selection=(water), carve=1.6
+#color skyblue, dens_mesh
+#map_double dens
 
 load 3ps_fofo.map, 3ps_FoFomap
 map_double 3ps_FoFomap
@@ -81,15 +78,13 @@ map_double 3ps_FoFomap
 # color teal, 3ps_FoFomap_pos
 # color orange, 3ps_FoFomap_neg
 
-isomesh 3ps_FoFomap_pos_w, 3ps_FoFomap, 4.5, 3ps, selection=(water), carve=1.6
-isomesh 3ps_FoFomap_neg_w, 3ps_FoFomap, -4.5, 3ps, selection=(water), carve=1.6
+isomesh 3ps_FoFomap_pos_w, 3ps_FoFomap, 5, 3ps, selection=(water or residues or FAD or TTD), carve=2.5
+isomesh 3ps_FoFomap_neg_w, 3ps_FoFomap, -5, 3ps, selection=(water or residues or FAD or TTD), carve=2.5
 color teal, 3ps_FoFomap_pos_w
 color orange, 3ps_FoFomap_neg_w
 
 
 ## misc ##
-
-
 set ray_shadows, 0 
 set ray_trace_mode, 0
 
@@ -110,20 +105,12 @@ hide label
 deselect
 
 set_view (\
-     0.365054697,    0.831443608,    0.418719679,\
-    -0.189358041,    0.506702006,   -0.841021895,\
-    -0.911450028,    0.227758959,    0.342426389,\
-     0.000751202,    0.000021594,  -49.661094666,\
-    18.716186523,   16.178823471,   -0.939899683,\
-    30.726455688,   66.966232300,  -20.000000000 )
-
-# set_view (\
-# -0.182034671,    0.515911222,    0.837010384,\
-#     0.345453978,   -0.763420463,    0.545690358,\
-#     0.920548558,    0.388500690,   -0.039241143,\
-#     0.000364019,   -0.000057120,  -49.334007263,\
-# 19.674449921,   16.941400528,   -0.086325467,\
-# 38.680660248,   58.564327240,  -20.000000000 )
+    -0.386517107,    0.541380048,    0.746568680,\
+     0.517798662,   -0.542450190,    0.661454678,\
+     0.763103187,    0.642282188,   -0.070636921,\
+     0.000875482,    0.000274428,  -48.565685272,\
+    18.465948105,   15.781648636,    0.062743902,\
+    30.351612091,   64.271095276,  -20.000000000 )
 
 #draw 2048,2048
 ray 2048,2048

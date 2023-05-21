@@ -1,3 +1,4 @@
+reinitialize
 delete all
 space cmyk
 
@@ -34,8 +35,8 @@ color atomic, (not elem C)
 
 hide everything, c. C and i. 5-9
 select TTD, (c. C and i. 7)
-show sticks, TTD
-set stick_transparency, 0.8, TTD
+# show sticks, TTD
+# set stick_transparency, 0.8, TTD
 
 select FAD, (c. A and r. FDA)
 show sticks, FAD
@@ -111,6 +112,9 @@ distance /3ps//A/FDA`470/O2, /3ps//A/ASP`409/OD2
 distance /3ps//A/FDA`470/O4, /3ps//A/ASP`409/OD1
 distance /3ps//A/ASN`414/O, /3ps//A/FDA`470/N10
 
+distance /dark//A/ARG`378/NH1, /dark//A/FDA`470/N5
+color red, dist07
+
 hide label
 
 ## set view to look at FAD ##
@@ -118,12 +122,12 @@ hide label
 deselect
 
 set_view (\
-    -0.514982820,    0.835974097,    0.189467266,\
-     0.230834886,    0.348120540,   -0.908558905,\
-    -0.825501680,   -0.424157113,   -0.372261554,\
+    -0.514402211,    0.838707864,    0.178653464,\
+     0.233684883,    0.337552488,   -0.911812246,\
+    -0.825061679,   -0.427290261,   -0.369644672,\
      0.000000000,    0.000000000,  -56.387928009,\
     16.364500046,   13.473999977,   -4.323500156,\
-    19.228746414,   93.547080994,  -20.000000000 )
+    -1.660325766,  114.436180115,  -20.000000000 )
 
 ray 2048,2048
 #set ray_trace_mode, on
