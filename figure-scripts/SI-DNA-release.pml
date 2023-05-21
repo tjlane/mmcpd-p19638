@@ -16,13 +16,16 @@ set cartoon_transparency, 0.7
 
 ## loading dark structure ## 
 
-#load 10us_deposit.pdb, pl
+load superdark_deposit.pdb, dark
+
+load 10us_deposit.pdb, pl
 #load 30us_deposit.pdb, pl
-load 100us_deposit.pdb, pl
+#load 100us_deposit.pdb, pl
 
 
 ## color one purple
-color gray90, pl
+color gray90, dark
+color purple, pl
 
 
 ## coloring and selections, protein ##
@@ -30,7 +33,7 @@ color gray90, pl
 select TTD, (c. C and i. 7-8)
 show sticks, TTD
 select DNA, (c. C and i. 1-14)
-show sticks, DNA
+#show sticks, DNA
 
 # color grey90, DNA
 color lightblue, TTD
@@ -41,6 +44,12 @@ color atomic, (not elem C)
 
 hide sticks, ///B
 hide sticks, ////115
+hide ////FDA
+
+select trpmet, /pl//A/379+305
+show sticks, trpmet
+show sticks, /dark//A/379+305
+hide sticks, /dark//C
 
 ## cartoons/surface ##
 
@@ -48,22 +57,23 @@ hide cartoon
 
 create chainA, ///A
 color grey80, chainA
-set surface_quality, 1
-set surface_mode, 1
-set solvent_radius, 1.2
+# set surface_quality, 1
+# set surface_mode, 1
+# set solvent_radius, 1.2
 
 set transparency, 0
 # set surface_color, grey60
 
-show surface, chainA
+#show surface, chainA
 
 
 ## coloring and selections, waters ##
 
 hide ////HOH
 hide ////SO4
+hide /pl//W/143
 
-select ttdwater, ////HOH within 5. of ///C/7+8
+select ttdwater, /pl///HOH within 2.2 of ///C/7+8
 show sphere, ttdwater
 
 set sphere_scale, 0.2
@@ -74,23 +84,23 @@ set mesh_width, 1.2
 set mesh_quality, 6
 set fog, 1
 
-# load 10us_2fofo.map, dens
-# load 10us_fofo.map, diff
+load 10us_2fofo.map, dens
+load 10us_fofo.map, diff
 
 # load 30us_2fofo.map, dens
 # load 30us_fofo.map, diff
 
-load 100us_2fofo.map, dens
-load 100us_fofo.map, diff
+# load 100us_2fofo.map, dens
+# load 100us_fofo.map, diff
 
-isomesh dens_mesh, dens, 1.0, pl, selection=TTD, carve=5
+isomesh dens_mesh, dens, 1.0, pl, selection=(TTD or ttdwater), carve=1.8
 map_double dens
 color blue, dens_mesh
 
 map_double diff
 
-isomesh diff_pos, diff, 3, pl, selection=TTD, carve=5
-isomesh diff_neg, diff, -3, pl, selection=TTD, carve=5
+isomesh diff_pos, diff, 3, pl, selection=(TTD or ttdwater), carve=1.8
+isomesh diff_neg, diff, -3, pl, selection=(TTD or ttdwater), carve=1.8
 color green, diff_pos
 color red, diff_neg
 
