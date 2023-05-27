@@ -75,6 +75,9 @@ def TT_angle(trj):
     if len(sele) == 0:
         selection = f'(chainid 2) and ((resSeq 7) or (resSeq 8)) and ({atom_sele})'
         sele = trj.top.select(selection)
+    if len(sele) == 0:
+        selection = f'(chainid 3) and ((resSeq 7) or (resSeq 8)) and ({atom_sele})'
+        sele = trj.top.select(selection)
 
     #print([trj.top.atom(ai) for ai in sele])
     assert len(sele) == 6 * 2, len(sele)
@@ -102,6 +105,10 @@ def ttd_bond_distances(trj, carbon_index):
 
     if len(sele) == 0:
         selection = f'(chainid 2) and (resSeq 7 or resSeq 8) and ({atom_sele})'
+        sele = trj.top.select(selection)
+
+    if len(sele) == 0:
+        selection = f'(chainid 3) and (resSeq 7 or resSeq 8) and ({atom_sele})'
         sele = trj.top.select(selection)
 
     #print([trj.top.atom(ai) for ai in sele])
@@ -275,6 +282,7 @@ def main():
 
     rows = []
     for path in args.pdbfiles:
+        print(path)
         trj = md.load_pdb(path)
         payload = {
             'filename' : path,
