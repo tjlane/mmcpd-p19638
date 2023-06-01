@@ -44,11 +44,12 @@ show sticks, arg
 hide ////HOH
 hide ////SO4
 hide ///B
+hide cartoon, ///C+D
 
 
 ## All maps ##
 
-set mesh_width, 1.0
+set mesh_width, 0.5
 set mesh_quality, 6
 set fog, 2
 
@@ -62,6 +63,3 @@ hide label
 
 deselect
 run SI-high-vs-low-power.py
-
-
-
