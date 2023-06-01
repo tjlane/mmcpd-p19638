@@ -43,7 +43,7 @@ show sticks, FAD
 
 #select ttdresidues, (c. A and i. 256+257+301+305+376+379+421+441+450+115+439+431)
 #show sticks, ttdresidues
-select fadresidues, (c. A and i. 378+403+409+414)
+select fadresidues, (c. A and i. 378+403+409+268)
 show sticks, fadresidues
 
 hide cartoon
@@ -70,7 +70,7 @@ colour red, 3ps and c. W
 
 set mesh_width, 0.5
 set mesh_quality, 6
-set fog, 2
+set fog, 1
 
 
 
@@ -110,10 +110,22 @@ distance /3ps//A/ASN`403/ND2, /3ps//A/FDA`470/O4
 distance /3ps//A/ASN`403/OD1, /3ps//A/FDA`470/N5
 distance /3ps//A/FDA`470/O2, /3ps//A/ASP`409/OD2
 distance /3ps//A/FDA`470/O4, /3ps//A/ASP`409/OD1
-distance /3ps//A/ASN`414/O, /3ps//A/FDA`470/N10
+distance /3ps//A/FDA`470/N3, /3ps//A/ASP`409/O
+distance /3ps//A/SER`268/O, /3ps//W/HOH`99/O
+
+distance /3ps//W/HOH`101/O, /3ps//W/HOH`99/O
+distance /dark//W/HOH`138/O, /dark//W/HOH`136/O
+color lightblue, dist08
+color lightblue, dist09
 
 distance /dark//A/ARG`378/NH1, /dark//A/FDA`470/N5
-color red, dist07
+distance /dark//A/FDA`470/O2B, /dark//W/HOH`138/O
+distance /dark//A/FDA`470/O3B, /dark//W/HOH`138/O
+distance /dark//A/FDA`470/O2, /dark//W/HOH`138/O
+color red, dist10
+color red, dist11
+color red, dist12
+color red, dist13
 
 hide label
 
@@ -122,12 +134,12 @@ hide label
 deselect
 
 set_view (\
-    -0.514402211,    0.838707864,    0.178653464,\
-     0.233684883,    0.337552488,   -0.911812246,\
-    -0.825061679,   -0.427290261,   -0.369644672,\
+    -0.653456986,    0.738794208,    0.164719641,\
+     0.263321698,    0.425893098,   -0.865579426,\
+    -0.709652543,   -0.522246122,   -0.472859383,\
      0.000000000,    0.000000000,  -56.387928009,\
     16.364500046,   13.473999977,   -4.323500156,\
-    -1.660325766,  114.436180115,  -20.000000000 )
+    35.556224823,   77.219642639,  -20.000000000 )
 
 ray 2048,2048
 #set ray_trace_mode, on
