@@ -7,7 +7,7 @@ maps = [
     "10ns_HP-LP_truncated_light-light_mkFoFo.map",
 ]
 map_names = ["hp-dark", "lp-dark", "lp_trunc-dark", "hp-lp_trunc"]
-sigmas = [3.5, 3.5, 3.5, 2.5]
+sigmas = [3.5, 3.5, 3.5, 3.5]
 figsize = (1024, 1024)
 
 for i, map_file in enumerate(maps):
