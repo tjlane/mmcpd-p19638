@@ -18,8 +18,10 @@ set valence, 0
 
 ## loading dark structure ## 
 
-load 3ps_deposit.pdb, 3ps
-color gray90, 3ps
+# load 3ps_deposit.pdb, 3ps
+# color gray90, 3ps
+load superdark_deposit.pdb, dark
+color gray90, dark
 color atomic, (not elem C) 
 
 # load 300ps_deposit.pdb, 300ps
@@ -58,13 +60,12 @@ color lightblue, /3ns//C/7+8/C4R+C5'+C3R+C2'+C1'
 color lightblue, /3ns//C/7+8/C1R+C3'+CA+C2R+C4'+C5R
 color atomic, (not elem C) 
 
-# + /3ns//W/41 + /3ps//W/37
-select ttdwater, /3ps//W/40 
+select ttdwater, /dark//W/51
 show sphere, ttdwater
 
 
 set sphere_scale, 0.2
-colour gray90, 3ps and c. W
+colour gray90, dark and c. W
 colour red, 3ns and c. W
 
 
@@ -95,20 +96,20 @@ hide cartoon
 hide label, measure*
 set ray_shadows, 0 
 
-# distance /3ps//W/HOH`99/O, /3ps//A/FDA`470/O2
 
-distance /3ns//C/DT`8/O2, /3ns//A/ASN`257/OD1
-# distance /3ns//C/DT`7/N3, /3ns//A/GLU`301/OE2
-# distance /3ns//A/GLU`301/OE1, /3ns//C/DT`7/O4
+
 distance /3ns//A/ARG`256/NH2, /3ns//C/DT`8/O2
-distance /3ns//A/ARG`256/NH2, /3ns//C/DT`7/O2
+distance /3ns//A/GLU`301/OE2, /3ns//C/DT`7/N3
+distance /3ns//A/GLU`301/OE1, /3ns//C/DT`7/O4
 
-distance /3ps//C/TTD`7/N3T, /3ps//W/HOH`40/O
-color red, dist04
-distance /3ps//W/HOH`40/O, /3ps//A/ASN`257/OD1
+distance /dark//A/ARG`256/NH2, /dark//W/HOH`51/O
+color lightblue, dist04
+
+distance /dark//C/TTD`7/N3T, /dark//W/HOH`51/O
 color red, dist05
-distance /3ps//A/ARG`256/NH2, /3ps//W/HOH`40/O
+distance /dark//A/ASN`257/OD1, /dark//W/HOH`51/O
 color red, dist06
+
 
 
 hide label
