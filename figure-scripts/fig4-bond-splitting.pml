@@ -102,13 +102,13 @@ distance /3ns//A/ARG`256/NH2, /3ns//C/DT`8/O2
 distance /3ns//A/GLU`301/OE2, /3ns//C/DT`7/N3
 distance /3ns//A/GLU`301/OE1, /3ns//C/DT`7/O4
 
-distance /dark//A/ARG`256/NH2, /dark//W/HOH`51/O
-color lightblue, dist04
-
 distance /dark//C/TTD`7/N3T, /dark//W/HOH`51/O
-color red, dist05
+color red, dist04
 distance /dark//A/ASN`257/OD1, /dark//W/HOH`51/O
-color red, dist06
+color red, dist05
+
+# distance /dark//A/ARG`256/NH2, /dark//W/HOH`51/O
+# color lightblue, dist06
 
 
 
