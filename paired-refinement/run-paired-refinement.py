@@ -8,12 +8,33 @@ import subprocess
 import shutil
 import multiprocessing as mp
 
+TEST_MODE = False
 
-def run_refinement(args):
+
+def run_paired_refinement(args):
 
     print(args)
+    pdb, mtz, ttdcif, fadcif, r_free_mtz, evaluated_resolutions, rescut = args
 
-    pdb, mtz, ttdcif, fadcif, r_free_mtz, rescut = args
+    name, resulting_pdb_path, ref_mtz = run_refinement(pdb, mtz, ttdcif, fadcif, r_free_mtz, rescut)
+
+    rfactor_table = []
+
+    for res in evaluated_resolutions:
+        r_work, r_free = get_rfactors(resulting_pdb_path, ref_mtz, res)
+        rfactor_table.append([res, r_work, r_free])
+
+    np.savetxt(f'{name}_rfactor_table.tsv', rfactor_table, fmt="%.3f")
+
+    return
+
+
+def run_refinement(pdb, mtz, ttdcif, fadcif, r_free_mtz, rescut):
+
+    if TEST_MODE:
+        num_cycles = 0
+    else:
+        num_cycles = 5
 
     name = os.path.basename(pdb).split("_")[0]
 
@@ -38,7 +59,7 @@ def run_refinement(args):
 {fadcif} {ttdcif} \
 xray_data.r_free_flags.file_name={r_free_mtz} \
 xray_data.labels="KFEXTR,SIGKFEXTR" \
-main.number_of_macro_cycles=0 \
+main.number_of_macro_cycles={num_cycles} \
 refinement.refine.strategy=individual_sites+tls+individual_adp+occupancies \
 refinement.refine.adp.tls="chain 'A' or chain 'C' or chain 'D'" \
 refinement.refine.adp.tls="chain 'B' or chain 'F' or chain 'E'" \
@@ -48,12 +69,15 @@ hydrogens.refine=riding main.nqh_flips=False --overwrite > phenix.log 2>&1
 
     try:
         subprocess.call(cmd, shell=True)
+        resulting_pdb_path = os.path.abspath(f"{name}_deposit_refine_001.pdb")
     except Exception as e:
         print(e)
     finally:
         os.chdir(current_dir)
 
-    return
+    assert os.path.exists(resulting_pdb_path)
+
+    return name, resulting_pdb_path, mtz
 
 
 def get_rfactors(pdb_path, data_mtz_path, rescut):
@@ -64,6 +88,8 @@ def get_rfactors(pdb_path, data_mtz_path, rescut):
         data_mtz_path,
         f'high_res={rescut}'
     ]
+
+    print(cmd)
 
     r = subprocess.run(' '.join(cmd), shell=True, capture_output=True, text=True)
 
@@ -86,16 +112,18 @@ def main():
     parser.add_argument('-f', '--rfree', default="/Users/tjlane/Desktop/PL-workshop/pl-refinements/Rfree_DO_refine44.mtz")
     args = parser.parse_args()
 
-    rescuts = np.linspace(2.0, 3.0, 11)
+    if TEST_MODE:
+        rescuts = [2.0, 3.0]
+    else:
+        rescuts = np.linspace(2.0, 3.0, 11)
 
-    # for rescut in np.linspace(2.0, 3.0, 11):
-    #     run_refinement(args.pdb, args.mtz, args.fadcif, args.ttdcif, args.rfree, rescut)
+    evaluated_resolutions = rescuts
 
-    static_args = [args.pdb, args.mtz, args.fadcif, args.ttdcif, args.rfree]
+    static_args = [args.pdb, args.mtz, args.fadcif, args.ttdcif, args.rfree, evaluated_resolutions]
     jobs_to_run = [static_args + [rescut] for rescut in rescuts]
 
     with mp.Pool(len(jobs_to_run)) as pool:
-        print(pool.map(run_refinement, jobs_to_run))
+        pool.map(run_paired_refinement, jobs_to_run)
 
     return
 
