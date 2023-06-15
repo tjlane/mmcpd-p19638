@@ -24,7 +24,7 @@ def run_paired_refinement(args):
         r_work, r_free = get_rfactors(resulting_pdb_path, ref_mtz, res)
         rfactor_table.append([res, r_work, r_free])
 
-    np.savetxt(f'{name}_rfactor_table.tsv', rfactor_table, fmt="%.3f")
+    np.savetxt(f'{name}_refined{rescut}_rfactor_table.tsv', rfactor_table, fmt="%.3f")
 
     return
 
