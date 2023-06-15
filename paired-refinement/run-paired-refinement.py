@@ -86,7 +86,8 @@ def get_rfactors(pdb_path, data_mtz_path, rescut):
         'phenix.model_vs_data',
         pdb_path,
         data_mtz_path,
-        f'high_res={rescut}'
+        'f_obs_label=KFEXTR',
+        f'high_res={rescut}',
     ]
 
     print(cmd)
@@ -115,7 +116,7 @@ def main():
     if TEST_MODE:
         rescuts = [2.0, 3.0]
     else:
-        rescuts = np.linspace(2.0, 3.0, 11)
+        rescuts = np.linspace(2.2, 3.7, 16)
 
     evaluated_resolutions = rescuts
 
