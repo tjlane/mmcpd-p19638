@@ -111,11 +111,12 @@ show sphere, water
 show sphere, lightwater
 
 set sphere_scale, 0.2
+
+color skyblue, /3ps///TTD
+color atomic, (not elem C) 
+
 color gray90, dark and c. W
 color red, 3ps and c. W
-
-color skyblue, TTD
-color atomic, (not elem C) 
 
 ## All maps ##
 
@@ -130,8 +131,8 @@ set fog, 2
 load 3ps_fofo.map, 3ps_FoFomap
 map_double 3ps_FoFomap
 
-isomesh 3ps_FoFomap_pos_w, 3ps_FoFomap, 5, 3ps, selection=(water or ADE or TTD), carve=2.5
-isomesh 3ps_FoFomap_neg_w, 3ps_FoFomap, -5, 3ps, selection=(water or ADE or TTD), carve=2.5
+isomesh 3ps_FoFomap_pos_w, 3ps_FoFomap, 4.5, 3ps, selection=(water or ADE or TTD), carve=2.0
+isomesh 3ps_FoFomap_neg_w, 3ps_FoFomap, -4.5, 3ps, selection=(water or ADE or TTD), carve=2.0
 color teal, 3ps_FoFomap_pos_w
 color orange, 3ps_FoFomap_neg_w
 
@@ -149,6 +150,7 @@ distance /dark//W/HOH`26/O, /dark//W/HOH`46/O
 distance /dark//W/HOH`26/O, /dark//A/ARG`256/NH2
 
 distance /dark//W/HOH`26/O, /dark//W/HOH`51/O
+distance /dark//W/HOH`51/O, /dark//W/HOH`14/O
 
 color red, dist*
 
