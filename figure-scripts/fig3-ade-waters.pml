@@ -29,14 +29,68 @@ color atomic, (not elem C)
 ## coloring and selections, protein ##
 hide ///B/FDA
 select FAD, ///A/FDA
-show sticks, FAD
+#show sticks, FAD
 
-select residues, ///A/414 + ///A/256-257
+sele /dark//A/FDA`470/O5B or \
+/dark//A/FDA`470/C5B or \
+/dark//A/FDA`470/C4B or \
+/dark//A/FDA`470/C3B or \
+/dark//A/FDA`470/O3B or \
+/dark//A/FDA`470/O2B or \
+/dark//A/FDA`470/C2B or \
+/dark//A/FDA`470/C1B or \
+/dark//A/FDA`470/O4B or \
+/dark//A/FDA`470/N9A or \
+/dark//A/FDA`470/C8A or \
+/dark//A/FDA`470/N7A or \
+/dark//A/FDA`470/C5A or \
+/dark//A/FDA`470/C4A or \
+/dark//A/FDA`470/N3A or \
+/dark//A/FDA`470/C2A or \
+/dark//A/FDA`470/N1A or \
+/dark//A/FDA`470/C6A or \
+/dark//A/FDA`470/N6A
+
+set_name sele, ADE
+show sticks, ADE
+
+select residues, ///A/414 + ///A/256 # -257
 show sticks, residues
 
 select TTD, ///C/7+8
 show sticks, TTD
 #set stick_transparency, 0.7, TTD
+
+hide sticks, ///A/FDA`470/P
+hide sticks, ///A/FDA`470/O1P
+hide sticks, ///A/FDA`470/O2P
+hide sticks, ///A/FDA`470/O5'
+hide sticks, ///A/FDA`470/C5'
+hide sticks, ///A/FDA`470/O4'
+hide sticks, ///A/FDA`470/C4'
+hide sticks, ///A/FDA`470/C3'
+hide sticks, ///A/FDA`470/O3'
+hide sticks, ///A/FDA`470/C2'
+hide sticks, ///A/FDA`470/O2'
+hide sticks, ///A/FDA`470/C1'
+hide sticks, ///A/FDA`470/N10
+hide sticks, ///A/FDA`470/C9A
+hide sticks, ///A/FDA`470/C9
+hide sticks, ///A/FDA`470/C8
+hide sticks, ///A/FDA`470/C8M
+hide sticks, ///A/FDA`470/C7M
+hide sticks, ///A/FDA`470/C6
+hide sticks, ///A/FDA`470/C5X
+hide sticks, ///A/FDA`470/C7
+hide sticks, ///A/FDA`470/N5
+hide sticks, ///A/FDA`470/C4X
+hide sticks, ///A/FDA`470/C10
+hide sticks, ///A/FDA`470/N1
+hide sticks, ///A/FDA`470/C2
+hide sticks, ///A/FDA`470/N3
+hide sticks, ///A/FDA`470/C4
+hide sticks, ///A/FDA`470/O4
+hide sticks, ///A/FDA`470/O2
 
 color atomic, (not elem C) 
 
@@ -57,8 +111,11 @@ show sphere, water
 show sphere, lightwater
 
 set sphere_scale, 0.2
-colour gray90, dark and c. W
-colour red, 3ps and c. W
+color gray90, dark and c. W
+color red, 3ps and c. W
+
+color skyblue, TTD
+color atomic, (not elem C) 
 
 ## All maps ##
 
@@ -73,13 +130,8 @@ set fog, 2
 load 3ps_fofo.map, 3ps_FoFomap
 map_double 3ps_FoFomap
 
-# isomesh 3ps_FoFomap_pos, 3ps_FoFomap, 4.5, 3ps, selection=(FAD), carve=2.5
-# isomesh 3ps_FoFomap_neg, 3ps_FoFomap, -4.5, 3ps, selection=(FAD), carve=2.5
-# color teal, 3ps_FoFomap_pos
-# color orange, 3ps_FoFomap_neg
-
-isomesh 3ps_FoFomap_pos_w, 3ps_FoFomap, 5, 3ps, selection=(water or residues or FAD or TTD), carve=2.5
-isomesh 3ps_FoFomap_neg_w, 3ps_FoFomap, -5, 3ps, selection=(water or residues or FAD or TTD), carve=2.5
+isomesh 3ps_FoFomap_pos_w, 3ps_FoFomap, 5, 3ps, selection=(water or ADE or TTD), carve=2.5
+isomesh 3ps_FoFomap_neg_w, 3ps_FoFomap, -5, 3ps, selection=(water or ADE or TTD), carve=2.5
 color teal, 3ps_FoFomap_pos_w
 color orange, 3ps_FoFomap_neg_w
 
@@ -96,7 +148,13 @@ distance /dark//W/HOH`26/O, /dark//A/FDA`470/N7A
 distance /dark//W/HOH`26/O, /dark//W/HOH`46/O
 distance /dark//W/HOH`26/O, /dark//A/ARG`256/NH2
 
+distance /dark//W/HOH`26/O, /dark//W/HOH`51/O
+
 color red, dist*
+
+distance /dark//A/FDA`470/N6A, /dark//C/TTD`7/O4T
+distance /dark//W/HOH`51/O, /dark//C/TTD`7/N3T
+
 hide label
 #set label_size, 18
 
@@ -105,12 +163,20 @@ hide label
 deselect
 
 set_view (\
-    -0.386517107,    0.541380048,    0.746568680,\
-     0.517798662,   -0.542450190,    0.661454678,\
-     0.763103187,    0.642282188,   -0.070636921,\
-     0.000875482,    0.000274428,  -48.565685272,\
-    18.465948105,   15.781648636,    0.062743902,\
-    30.351612091,   64.271095276,  -20.000000000 )
+    -0.378983498,    0.663113296,    0.645365000,\
+     0.584959745,   -0.368673235,    0.722346544,\
+     0.716951549,    0.651327968,   -0.248166889,\
+     0.000721874,   -0.001020088,  -37.231597900,\
+    20.968730927,   15.923124313,   -0.015916348,\
+  -2751.483642578, 2819.608154297,  -20.000000000 )
+
+# set_view (\
+#     -0.386517107,    0.541380048,    0.746568680,\
+#      0.517798662,   -0.542450190,    0.661454678,\
+#      0.763103187,    0.642282188,   -0.070636921,\
+#      0.000875482,    0.000274428,  -48.565685272,\
+#     18.465948105,   15.781648636,    0.062743902,\
+#     30.351612091,   64.271095276,  -20.000000000 )
 
 #draw 2048,2048
 ray 2048,2048
