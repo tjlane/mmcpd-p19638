@@ -13,6 +13,8 @@ set cartoon_oval_length, 0.5
 set stick_radius, 0.15
 set cartoon_transparency, 0.7
 
+set valence, 0
+set dash_width, 3
 
 ## loading dark structure ## 
 
