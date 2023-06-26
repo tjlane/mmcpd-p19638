@@ -5,30 +5,29 @@ SIGMA = 1.5
 maps = [
     '3ns-paired-ref-res2.2/3ns_deposit_refine_001_filled.map',
     '3ns-paired-ref-res2.3/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res2.4/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res2.5/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res2.6/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res2.7/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res2.8/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res2.9/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res3.0/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res3.1/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res3.2/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res3.3/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res3.4/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res3.5/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res3.6/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res3.7/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res3.8/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res3.9/3ns_deposit_refine_001_filled.map',
-    # '3ns-paired-ref-res4.0/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res2.4/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res2.5/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res2.6/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res2.7/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res2.8/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res2.9/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res3.0/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res3.1/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res3.2/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res3.3/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res3.4/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res3.5/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res3.6/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res3.7/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res3.8/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res3.9/3ns_deposit_refine_001_filled.map',
+    '3ns-paired-ref-res4.0/3ns_deposit_refine_001_filled.map',
 ]
 figsize = (1024, 1024)
 
 for i, map_file in enumerate(maps):
 
     cmd.load(map_file, "2FoFomap")
-    #cmd.map_double("2FoFomap")
 
     cmd.isomesh("2FoFomap_pos", "2FoFomap", level=SIGMA)
     cmd.color("blue", "2FoFomap_pos")
@@ -45,5 +44,5 @@ for i, map_file in enumerate(maps):
 
     name = map_file.split("/")[0]
     cmd.save(f"./png/{name}_sigma{SIGMA}.png")
-    # cmd.delete("2FoFomap_pos")
-    # cmd.delete("2FoFomap")
+    cmd.delete("2FoFomap_pos")
+    cmd.delete("2FoFomap")

@@ -43,7 +43,7 @@ color red, 3ps and c. W
 
 hide ////SO4
 hide ///B
-hide cartoon, ///C+D
+hide cartoon
 
 
 ## All maps ##
