@@ -1,21 +1,21 @@
 from pymol import cmd
 
-SIGMA = 4
+SIGMA = 4.5
 FIGSIZE = (1024, 1024)
-VIEW = "top"  # "top" or "side"
+VIEW = "side"  # "top" or "side"
 
 maps = [
-    "polders/superdark_deposit_polder.map",
-    "polders/3ps_deposit_polder.map",
-    "polders/300ps_deposit_polder.map",
-    "polders/1ns_deposit_polder.map",
-    "polders/3ns_deposit_polder.map",
-    "polders/10ns_deposit_polder.map",
-    "polders/30ns_deposit_polder.map",
-    "polders/1us_deposit_polder.map",
-    "polders/10us_deposit_polder.map",
-    "polders/30us_deposit_polder.map",
-    "polders/100us_deposit_polder.map",
+    "superdark_deposit_polder.map",
+    "3ps_deposit_polder.map",
+    "300ps_deposit_polder.map",
+    "1ns_deposit_polder.map",
+    "3ns_deposit_polder.map",
+    "10ns_deposit_polder.map",
+    "30ns_deposit_polder.map",
+    "1us_deposit_polder.map",
+    "10us_deposit_polder.map",
+    "30us_deposit_polder.map",
+    "100us_deposit_polder.map",
 ]
 
 models = [
@@ -35,6 +35,11 @@ models = [
 
 for i, map_file in enumerate(maps):
 
+    if VIEW == "side":
+        map_file = "polders/" + map_file
+    elif VIEW == "top":
+        map_file = "polders_with_asn403/" + map_file
+
     print(i, map_file)
 
     cmd.load(models[i], "pl")
@@ -50,7 +55,8 @@ for i, map_file in enumerate(maps):
     cmd.map_double("2FoFcmap")
     cmd.map_double("2FoFcmap")
 
-    cmd.isomesh("2FoFcmap_pos", "2FoFcmap", level=SIGMA, selection="///A/FDA", carve=6)
+    cmd.isomesh("2FoFcmap_pos", "2FoFcmap", level=SIGMA, selection="///A/FDA", carve=5.2)
+
     cmd.color("blue", "2FoFcmap_pos")
 
     if VIEW == "side":
@@ -63,7 +69,7 @@ for i, map_file in enumerate(maps):
             47.470001221,   65.305831909,  -20.000000000 ])
 
     elif VIEW == "top":
-        cmd.distance("d1", "/pl//A/FDA`470/N5", "/pl//A/ASN`403/OD1")
+        cmd.distance("d1", "///A/FDA/N5", "///A/403/OD1")
         cmd.hide("label")
         cmd.set_view([\
             -0.132050425,    0.692924380,    0.708782971,\
@@ -80,6 +86,9 @@ for i, map_file in enumerate(maps):
     # cmd.ray(*FIGSIZE)
 
     name = map_file.split("/")[1]
-    cmd.save(f"./png/{name}_sigma{SIGMA}.png")
+    cmd.save(f"./png/{i}_{name}_{VIEW}_sigma{SIGMA}.png")
     cmd.delete("2FoFcmap_pos")
     cmd.delete("2FoFcmap")
+    cmd.delete("pl")
+    if VIEW == "top":
+        cmd.delete("d1")
