@@ -12,14 +12,15 @@ set cartoon_rect_length, 0.5
 set cartoon_oval_length, 0.5
 set stick_radius, 0.15
 set cartoon_transparency, 0.7
+set ambient, 0.4
 
 
 ## loading dark structure ## 
 
 # load 1us_deposit.pdb, pl
-#load 10us_deposit.pdb, pl
+load 10us_deposit.pdb, pl
 #load 30us_deposit.pdb, pl
-load 100us_deposit.pdb, pl
+#load 100us_deposit.pdb, pl
 
 # color gray90, 1us
 # color gray90, 10us
@@ -53,7 +54,7 @@ hide sticks, ////115
 hide cartoon
 
 create chainA, ///A
-color grey80, chainA
+color grey90, chainA
 set surface_quality, 1
 set surface_mode, 1
 set solvent_radius, 1.2
@@ -78,7 +79,7 @@ set sphere_scale, 0.2
 
 set mesh_width, 0.6
 set mesh_quality, 6
-set fog, 1
+set fog, 0
 
 
 ## misc ##
