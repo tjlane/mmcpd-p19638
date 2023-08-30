@@ -15,11 +15,15 @@ set cartoon_transparency, 0.85
 
 set valence, 0
 
-#load superdark_deposit.pdb, mmcpd
-load 10ns_deposit.pdb, mmcpd
-#load 10ns_LP_occ08.pdb, mmcpd
-#load 10ns_LP_occ04.pdb, mmcpd
-load fad.map, polder
+# load superdark_deposit.pdb, mmcpd
+# load superdark_2mFextr-DFc.map, polder
+
+# load 3ps_deposit.pdb, mmcpd
+# load 3ps_2mFextr-DFc.map, polder
+
+load 3ns_deposit.pdb, mmcpd
+load 3ns_2mFextr-DFc.map, polder
+
 
 color purple, mmcpd
 
@@ -30,7 +34,7 @@ hide cartoon
 
 ## maps ##
 
-isomesh polder_mesh, polder, 4.0, mmcpd, selection=FAD, carve=2.5
+isomesh polder_mesh, polder, 1.5, mmcpd, selection=FAD, carve=1.8
 map_double polder
 map_double polder
 color skyblue, polder_mesh

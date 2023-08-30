@@ -15,13 +15,10 @@ set cartoon_transparency, 0.85
 
 set valence, 0
 
-load superdark_deposit.pdb, mmcpd
-#load 10ns_deposit.pdb, mmcpd
-#load 10ns_LP_occ08.pdb, mmcpd
-#load 10ns_LP_occ04.pdb, mmcpd
-load ttd.map, polder
+load 1ns_deposit.pdb, mmcpd
+load 1ns_2mFextr-DFc.map, polder
 
-color purple, mmcpd
+color grey90, mmcpd
 
 
 ## coloring and selections, protein ##
@@ -32,10 +29,10 @@ hide everything, c. C and i. 5-9
 select TTD, (c. C and (i. 7 or i. 8))
 show sticks, TTD
 
-# color skyblue, ///C/
-# color lightblue, ///C/TT6/C4R+C5'+C3R+C2'+C1'
-# color lightblue, ///C/TT6/C1R+C3'+CA+C2R+C4'+C5R
-# color atomic, (not elem C) 
+color skyblue, ///C/TT6
+color lightblue, ///C/TT6/C4R+C5'+C3R+C2'+C1'
+color lightblue, ///C/TT6/C1R+C3'+CA+C2R+C4'+C5R
+color atomic, (not elem C) 
 
 ## coloring and selections, waters ##
 
@@ -52,7 +49,7 @@ set fog, 2
 
 
 
-isomesh polder_mesh, polder, 4.0, mmcpd, selection=TTD, carve=2.5
+isomesh polder_mesh, polder, 2.0, mmcpd, selection=TTD, carve=1.8
 map_double polder
 map_double polder
 color skyblue, polder_mesh
