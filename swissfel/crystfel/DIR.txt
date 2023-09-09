@@ -1,0 +1,84 @@
+#### Directory structure:
+* Main working directory: /sf/alvra/data/p19638
+ |
+ |-- /raw :data taking durign the experiment. In each series there may be from 1 to many acquisition steps (third column)
+ |	 |-- /data 
+ |	 |	 |acq0001.BSDATA.h5
+ |   	 |   	 |acq0001.BSDATA.h5
+ |	 |	 |acq0001.BSDATA.h5
+ |	 |	 |acq0001.CAMERAS.h5
+ |	 |	 |acq0001.JF06T08V02.dark.lst
+ |       |   	 |acq0001.JF06T08V02.h5
+ |	 |	 |acq0001.PVCHANNELS.h5
+ |	 |	 |acq0001.PVDATA.h5
+ |       |-- /logs 
+ |	 |	 |acq0001.BSDATA.log
+ |       |       |aacq0001.CAMERAS.log
+ |	 |	 |acq0001.JF06T08V02.log
+ |	 |	 |acq0001.PVCHANNELS.log
+ |	 |	 |acq0001.PVDATA.log
+ |       |-- /meta
+ |	 |	 |acq0001.json
+ |       |   |scan.json
+ |
+ |-- /res :were stream files during after online indexing are stored
+ |-- /work/online :large data under /res was mv'd to /work/online on 4 JUL 22 by Dima
+ |	 |-- /run0001
+ |	 |	 |-- /index
+ |       |       |   |-- /dark
+ |	 |       |   |	|acq0001.err
+ |	 |       |   | 	|acq0001.out
+ |	 |	 |   | 	|acq0001.resolution
+ |	 |	 |   | 	|acq0001.stream
+ |	 |       |   |  |acq0002.err
+ |	 |	 |   | 	|acq0002.out
+ |	 |	 |   | 	|acq0002.resolution
+ |	 |	 |   |	|acq0002.stream
+ |   	 |       |   |-- /light
+ |	 |       |   	|acq0001.err
+ |	 |	 |	|acq0001.out
+ |	 |	 |	|acq0001.resolution
+ |	 |	 |	|acq0001.stream
+ |	 |       |      |acq0002.err
+ |	 |	 |	|acq0002.out
+ |	 |	 |	|acq0002.resolution
+ |	 |	 |	|acq0002.stream
+ |-- /work :this is the working directory
+ |   |-- /online : **streams created during experiment are here and deleted from res/, so
+ 				  if you analyze streams - please take them from work/ location.**
+ |   |-- /Processing : this is where we processed data during the experiment
+ |   |	 |-- /Lyso 
+ |   |	 |-- /Pl1
+ |   |   	|-- /10ns
+ |   |   		|-- /mtz :mtz files are stored here
+ |   |      		|-- /part :all things to run partialator
+ |   |      	 		|-- /files :separate dark and light events from the stream stream files, light and dark stream files script to 							    split events and producing csplit1.dat for --custom-split (for partialator)
+ |   |      	  		|-- /unity :if unity indexing was using, run partiator form here
+ |   |      	 		|-- /xsphere :if xsphere indexing was using, run partiator form here 
+ |   |      	|-- /300ps 
+ ...
+ |   |-- /DetDist_opti : this is were the detector optimisation **will** run 
+ |	 |	 |make_list_for_DetDist.sh :script to create list of frames for each reservoir 
+ |	 |	 |-- /reserv_4
+ |	 |	 |-- /reserv_5
+ |	 |	 |-- /reserv_6
+ ...
+ |   |-- /alvra_beamlime_scripts :some useful scripts from alvra group. Documentation can also be foudn here: 
+ |				  https://github.com/paulscherrerinstitute/alvra_beamline_scripts
+ |   |-- /anaconda :script from PSI team 
+ |   |-- /file_process :some useful files from previous experiments (cell files, geometries, PDBs etc)
+ |   |-- /scripts-process : various different scripts, commonly used using analysis at PSI, added by Quentin
+ |   |-- /streams : some streams files that were created while the experiment. Probably not very useful anymore, coudl delete. 
+ |   |-- /scratch :this is currently empty
+ |   |-- /tuning_param :Crystfel indexing results and final data processing (partialator, statistics)
+ |   |  |/indexing_100us
+ |   |  |/indexing_10ns
+ |   |  |/indexing_10ns-LP
+ |   |  |/indexing_1ns
+ |   |  |/indexing_1us
+ |   |  |/indexing_300ps
+ |   |  |/indexing_30ns
+ |   |  |/indexing_30us
+ |   |  |/indexing_3ns
+ |   |  |/indexing_3ps
+ 
