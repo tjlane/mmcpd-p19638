@@ -15,14 +15,17 @@ set cartoon_transparency, 0.85
 
 set valence, 0
 
-# load superdark_deposit.pdb, mmcpd
-# load superdark_2mFextr-DFc.map, polder
+load superdark_deposit.pdb, mmcpd
+load superdark_2mFextr-DFc.map, polder
+load superdark_diff.map, diffmap
 
 # load 3ps_deposit.pdb, mmcpd
 # load 3ps_2mFextr-DFc.map, polder
+# load 3ps_diff.map, diffmap
 
-load 3ns_deposit.pdb, mmcpd
-load 3ns_2mFextr-DFc.map, polder
+# load 3ns_deposit.pdb, mmcpd
+# load 3ns_2mFextr-DFc.map, polder
+# load 3ns_diff.map, diffmap
 
 
 color purple, mmcpd
@@ -38,6 +41,13 @@ isomesh polder_mesh, polder, 1.5, mmcpd, selection=FAD, carve=1.8
 map_double polder
 map_double polder
 color skyblue, polder_mesh
+
+map_double diffmap
+map_double diffmap
+isomesh diff_pos, diffmap, 3.0, mmcpd, selection=FAD, carve=3.0
+isomesh diff_neg, diffmap, -3.0, mmcpd, selection=FAD, carve=3.0
+color green, diff_pos
+color red, diff_neg
 
 
 ## coloring and selections, waters ##

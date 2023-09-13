@@ -17,6 +17,7 @@ set valence, 0
 
 load 1ns_deposit.pdb, mmcpd
 load 1ns_2mFextr-DFc.map, polder
+load 1ns_diff.map, diffmap
 
 color grey90, mmcpd
 
@@ -47,12 +48,17 @@ set fog, 2
 
 ## standard map visualization ##
 
-
-
 isomesh polder_mesh, polder, 2.0, mmcpd, selection=TTD, carve=1.8
 map_double polder
 map_double polder
 color skyblue, polder_mesh
+
+map_double diffmap
+map_double diffmap
+isomesh diff_pos, diffmap, 3.0, mmcpd, selection=TTD, carve=3.0
+isomesh diff_neg, diffmap, -3.0, mmcpd, selection=TTD, carve=3.0
+color green, diff_pos
+color red, diff_neg
 
 
 ## spherical ROI ##
@@ -77,6 +83,7 @@ set ray_shadows, 0
 
 deselect
 
+# TTD side view
 set_view (\
      0.722224236,   -0.653184295,   -0.227338567,\
      0.398728132,    0.124659434,    0.908527970,\
@@ -85,7 +92,8 @@ set_view (\
     25.805335999,   10.675458908,    3.354421377,\
   -568.719421387,  660.401184082,  -20.000000000 )
 
-#   set_view (\
+# TTD straight on view
+# set_view (\
 #      0.749465108,    0.434343696,   -0.499584973,\
 #      0.403505564,   -0.897978306,   -0.175383076,\
 #     -0.524790347,   -0.070144504,   -0.848287761,\
