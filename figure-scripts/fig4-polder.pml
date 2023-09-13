@@ -55,7 +55,7 @@ colour red, 3ns and c. W
 
 ## All maps ##
 
-set mesh_width, 0.9
+set mesh_width, 2.0
 set mesh_quality, 6
 set fog, 2
 
@@ -65,7 +65,7 @@ load 1ns_ttd_polder.ccp4, polder
 
 isomesh polder_mesh, polder, 6.0, 3ps, selection=TTD, carve=2.5
 map_double polder
-color blue, polder_mesh
+color skyblue, polder_mesh
 
 hide cartoon
 hide ////FDA
