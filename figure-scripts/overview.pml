@@ -65,8 +65,8 @@ set fog, 1
 
 map_double FoFomap
 
-isomesh FoFomap_pos, FoFomap, 4.5, 3ps, selection=complexA, carve=2
-isomesh FoFomap_neg, FoFomap, -4.5, 3ps, selection=complexA, carve=2
+isomesh FoFomap_pos, FoFomap, 4.5, 3ps, selection=complexA, carve=4
+isomesh FoFomap_neg, FoFomap, -4.5, 3ps, selection=complexA, carve=4
 
 # isomesh FoFomap_pos, FoFomap, 4, 3ns, selection=complexA, carve=2
 # isomesh FoFomap_neg, FoFomap, -4, 3ns, selection=complexA, carve=2
