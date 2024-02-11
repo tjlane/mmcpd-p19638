@@ -75,7 +75,7 @@ deselect
 ### start movie, zoomed out overview of protein ###
 
 deselect
-mset 1x600
+mset 1x1200
 
 
 # ### scene 001, zoomed out overview of protein ###
@@ -201,7 +201,7 @@ scene 010, store
 
 load 3ns_ttd_polder.map, 3nsdensmap
 map_double 3nsdensmap
-isomesh 3ns_mesh, 3nsdensmap, 5.0, mmcpd, selection=TTD, carve=1.6
+isomesh 3ns_mesh, 3nsdensmap, 4.5, mmcpd, selection=TTD, carve=1.6
 color skyblue, 3ns_mesh
 set_view (\
      0.790886343,   -0.608831823,    0.061472304,\
@@ -216,44 +216,45 @@ scene 011, store
 
 # # ---------------------- #
 
-
 mview store,   1, scene=001
 mview store,  60, scene=001
 mview store, 120, scene=002
 mview store, 140, scene=002
 mview store, 180, scene=003
 mview store, 200, scene=004
-mview store, 260, scene=004
+movie.rock first=200, last=320, angle=360, axis=y, loop=0, phase=90
+mview store, 360, scene=004
 
-mview store, 281, scene=005
-mview store, 281, state=1, object=morph1
-mview store, 320, state=30, object=morph1
-mview store, 320, scene=005
+mview store, 361, scene=005
+mview store, 361, state=1, object=morph1
+mview store, 400, state=30, object=morph1
+mview store, 400, scene=005
 
-mview store, 321, scene=006
-mview store, 321, state=1, object=morph2
-mview store, 360, state=30, object=morph2
-mview store, 360, scene=006
+mview store, 401, scene=006
+mview store, 401, state=1, object=morph2
+mview store, 460, state=30, object=morph2
+mview store, 460, scene=006
 
-mview store, 361, scene=007
-mview store, 361, state=1, object=morph3
-mview store, 400, state=30, object=morph3
-mview store, 400, scene=007
+mview store, 461, scene=007
+mview store, 461, state=1, object=morph3
+mview store, 500, state=30, object=morph3
+mview store, 500, scene=007
 
-mview store, 410, scene=008
-mview store, 450, scene=008
-mview store, 490, scene=009
+mview store, 550, scene=008
+movie.rock first=580, last=700, angle=360, axis=y, loop=0, phase=90
+mview store, 740, scene=008
+mview store, 761, scene=009
 
-mview store, 491, scene=010
-mview store, 491, state=1, object=morph4
-mview store, 530, state=30, object=morph4
-mview store, 530, scene=010
+mview store, 800, scene=009
+mview store, 801, scene=010
+mview store, 801, state=1, object=morph4
+mview store, 840, state=30, object=morph4
+mview store, 840, scene=010
 
-mview store, 550, scene=010
-mview store, 551, scene=011
-mview store, 600, scene=011
+mview store, 880, scene=010
+mview store, 900, scene=011
+movie.rock first=900, last=1020, angle=360, axis=y, loop=0, phase=90
+mview store, 1200, scene=011
 
-
-#mview reinterpolate
-
-#movie.produce bondbreaking.mpeg, mode=draw, quality=1
+mview reinterpolate
+movie.produce bondbreaking.mpeg, mode=draw, quality=1
