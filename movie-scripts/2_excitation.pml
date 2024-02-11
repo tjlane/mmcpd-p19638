@@ -12,7 +12,7 @@ set cartoon_rect_length, 0.5
 set cartoon_oval_length, 0.5
 set cartoon_gap_cutoff, 0
 set stick_radius, 0.12
-set cartoon_transparency, 0.65
+set cartoon_transparency, 0.7
 set mesh_width, 0.8
 set mesh_quality, 6
 set fog, 1
@@ -214,6 +214,7 @@ scene 012, store
 
 # ---------------------- #
 
+
 mview store,   1, scene=001
 mview store,  60, scene=001
 mview store, 120, scene=002
@@ -221,15 +222,15 @@ mview store, 180, scene=003
 mview store, 230, scene=004
 mview store, 241, scene=005
 mview store, 241, state=1, object=morphobject
-mview store, 270, state=30, object=morphobject
-mview store, 271, scene=006
-mview store, 272, scene=007
-mview store, 330, scene=008
-mview store, 360, scene=009
-mview store, 400, scene=010
-mview store, 440, scene=011
+mview store, 300, state=30, object=morphobject
+mview store, 301, scene=006
+mview store, 302, scene=007
+mview store, 340, scene=008
+mview store, 400, scene=009
+mview store, 440, scene=010
 mview store, 480, scene=011
-mview store, 540, scene=012
+mview store, 520, scene=011
+mview store, 560, scene=012
 mview store, 560, scene=012
 
 
