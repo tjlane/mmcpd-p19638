@@ -40,8 +40,7 @@ color purple, 1ns
 load 3ns_deposit-tt-rename-noanisou.pdb, 3ns
 color purple, 3ns
 
-# load 3ps_fdaA_polder.ccp4, polder
-# map_double polder
+
 
 morph morph1, /dark//C/7, /3ps//C/7, method="linear", refinement=0
 morph morph2, /3ps//C/7, /300ps//C/7, method="linear", refinement=0
@@ -75,8 +74,8 @@ deselect
 
 ### start movie, zoomed out overview of protein ###
 
-# deselect
-# mset 1x560
+deselect
+mset 1x600
 
 
 # ### scene 001, zoomed out overview of protein ###
@@ -101,7 +100,7 @@ set_view (\
     16.262737274,   15.801385880,   -3.937240601,\
    124.570953369,  432.637542725,  -20.000000000 )
 
-# scene 001, store
+scene 001, store
 
 # ### scene 002, zoom into FAD ###
 
@@ -113,23 +112,146 @@ set_view (\
     16.364500046,   13.473999977,   -4.323500156,\
     35.556224823,   77.219642639,  -20.000000000 )
 
-# scene 002, store
+scene 002, store
 
-# unbond /morph4//C/TT6`7/C6, /morph4//C/TT6`7/C6T
+# ### scene 003, move to TTD ###
+
+set_view (\
+     0.790886343,   -0.608831823,    0.061472304,\
+     0.427410096,    0.621504307,    0.656508505,\
+    -0.437907457,   -0.492954880,    0.751779318,\
+    -0.000131609,    0.000151294,  -56.331829071,\
+    22.421852112,    9.106984138,   -0.546686649,\
+    46.076141357,   66.699737549,  -20.000000000 )
+
+scene 003, store
+
+# ### scene 004, load dark map, rock ###
+
+load superdark_2mFextr-DFc.map, densmap
+map_double densmap
+#map_double densmap
+isomesh ttd_mesh, densmap, 2.5, mmcpd, selection=TTD, carve=1.5
+color skyblue, ttd_mesh
+
+set_view (\
+     0.790886343,   -0.608831823,    0.061472304,\
+     0.427410096,    0.621504307,    0.656508505,\
+    -0.437907457,   -0.492954880,    0.751779318,\
+    -0.000131609,    0.000151294,  -56.331829071,\
+    22.421852112,    9.106984138,   -0.546686649,\
+    46.076141357,   66.699737549,  -20.000000000 )
+
+#movie.rock 8, 45, start=230, stop=300, loop="on"
+
+scene 004, store
+
+# ### scene 005, remove dark map, rock ###
+
+disable ttd_mesh
+hide sticks, /dark//C/7
+show sticks, /dark//C/TTD`7/O3'
+show sticks, /dark//C/TTD`7/O3'
+enable morph1
+
+scene 005, store
+
+# ### scene 006 ###
+
+disable morph1
+enable morph2
+
+scene 006, store
+
+# ### scene 007 ###
+
+disable morph2
+enable morph3
+
+scene 007, store
+
+# ### scene 008 -- 1 ns map & rock ###
+
+
+load 1ns_ttd_polder.map, 1nsdensmap
+map_double 1nsdensmap
+isomesh 1ns_mesh, 1nsdensmap, 6.0, mmcpd, selection=TTD, carve=1.6
+color skyblue, 1ns_mesh
+set_view (\
+     0.790886343,   -0.608831823,    0.061472304,\
+     0.427410096,    0.621504307,    0.656508505,\
+    -0.437907457,   -0.492954880,    0.751779318,\
+    -0.000131609,    0.000151294,  -56.331829071,\
+    22.421852112,    9.106984138,   -0.546686649,\
+    46.076141357,   66.699737549,  -20.000000000 )
+
+scene 008, store
+
+disable 1ns_mesh
+scene 009, store
+
+# ### scene 009 ###
+
+disable morph3
+enable morph4
+unbond /morph4//C/TT6`7/C6, /morph4//C/TT6`7/C6T
+
+scene 010, store
+
+
+load 3ns_ttd_polder.map, 3nsdensmap
+map_double 3nsdensmap
+isomesh 3ns_mesh, 3nsdensmap, 5.0, mmcpd, selection=TTD, carve=1.6
+color skyblue, 3ns_mesh
+set_view (\
+     0.790886343,   -0.608831823,    0.061472304,\
+     0.427410096,    0.621504307,    0.656508505,\
+    -0.437907457,   -0.492954880,    0.751779318,\
+    -0.000131609,    0.000151294,  -56.331829071,\
+    22.421852112,    9.106984138,   -0.546686649,\
+    46.076141357,   66.699737549,  -20.000000000 )
+
+
+scene 011, store
 
 # # ---------------------- #
 
 
-# mview store,   1, scene=001
-# mview store,  60, scene=001
-# mview store, 120, scene=002
-# mview store, 180, scene=003
-# mview store, 230, scene=004
-# mview store, 241, scene=005
-# mview store, 241, state=1, object=morph1
-# mview store, 300, state=30, object=morph1
-# mview store, 301, scene=006
-# mview store, 302, scene=007
+mview store,   1, scene=001
+mview store,  60, scene=001
+mview store, 120, scene=002
+mview store, 140, scene=002
+mview store, 180, scene=003
+mview store, 200, scene=004
+mview store, 260, scene=004
+
+mview store, 281, scene=005
+mview store, 281, state=1, object=morph1
+mview store, 320, state=30, object=morph1
+mview store, 320, scene=005
+
+mview store, 321, scene=006
+mview store, 321, state=1, object=morph2
+mview store, 360, state=30, object=morph2
+mview store, 360, scene=006
+
+mview store, 361, scene=007
+mview store, 361, state=1, object=morph3
+mview store, 400, state=30, object=morph3
+mview store, 400, scene=007
+
+mview store, 410, scene=008
+mview store, 450, scene=008
+mview store, 490, scene=009
+
+mview store, 491, scene=010
+mview store, 491, state=1, object=morph4
+mview store, 530, state=30, object=morph4
+mview store, 530, scene=010
+
+mview store, 550, scene=010
+mview store, 551, scene=011
+mview store, 600, scene=011
 
 
 #mview reinterpolate
