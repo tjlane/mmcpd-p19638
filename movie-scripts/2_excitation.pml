@@ -233,6 +233,6 @@ mview store, 560, scene=012
 
 
 mview reinterpolate
-## set view to look at FAD ##
+set movie_fps, 30
 
 movie.produce 3ps.mpeg, mode=draw, quality=100, preserve=1
