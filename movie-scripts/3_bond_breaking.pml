@@ -2,9 +2,6 @@ reinitialize
 delete all
 space cmyk
 
-cd /Users/tjlane/My\ Drive\ (thomas.joseph.lane@gmail.com)/Research/Research Projects/photolyases/PL\ CPD/PL\ mmCPD/mmcpd-paper/movies/3_bond_breaking
-
-
 ## make background and overall style of protein ##
 
 bg_col white
@@ -15,7 +12,7 @@ set cartoon_oval_length, 0.5
 set cartoon_gap_cutoff, 0
 set stick_radius, 0.12
 set cartoon_transparency, 0.7
-set mesh_width, 0.8
+set mesh_width, 1.2
 set mesh_quality, 6
 set fog, 1
 set valence, 0
@@ -40,12 +37,10 @@ color purple, 1ns
 load 3ns_deposit-tt-rename-noanisou.pdb, 3ns
 color purple, 3ns
 
-
-
-morph morph1, /dark//C/7, /3ps//C/7, method="linear", refinement=0
-morph morph2, /3ps//C/7, /300ps//C/7, method="linear", refinement=0
-morph morph3, /300ps//C/7, /1ns//C/7, method="linear", refinement=0
-morph morph4, /1ns//C/7, /3ns//C/7, method="linear", refinement=0
+morph morph1, /dark//A+C, /3ps//A+C, method="linear", refinement=0
+morph morph2, /3ps//A+C, /300ps//A+C, method="linear", refinement=0
+morph morph3, /300ps//A+C, /1n//A+C, method="linear", refinement=0
+morph morph4, /1ns//A+C, /3ns//A+C, method="linear", refinement=0
 
 ## coloring and selections, protein ##
 
@@ -61,13 +56,14 @@ hide ////SO4
 
 show sticks, FAD
 show sticks, TTD
-show sticks, /dark//C/DC`6/O3'
-show sticks, /dark//C/DC`9/P
+#show sticks, ///C/DC`6/O3'
+show sticks, ///C/DC`9/P
 color skyblue, TTD
 
 # ribose
-color lightblue, /dark//C/TTD`7/C4R+C5'+C3R+C2'+C1'
-color lightblue, /dark//C/TTD`7/C1R+C3'+CA+C2R+C4'+C5R
+color lightblue, ///C/7/C4R+C5'+C3R+C2'+C1'
+color lightblue, ///C/7/C4R+C5'+C3R+C2'+C1'
+color lightblue, ///C/7/C1R+C3'+CA+C2R+C4'+C5R
 
 color atomic, (not elem C)
 deselect
@@ -130,7 +126,6 @@ scene 003, store
 
 load superdark_2mFextr-DFc.map, densmap
 map_double densmap
-#map_double densmap
 isomesh ttd_mesh, densmap, 2.5, mmcpd, selection=TTD, carve=1.5
 color skyblue, ttd_mesh
 
@@ -142,16 +137,12 @@ set_view (\
     22.421852112,    9.106984138,   -0.546686649,\
     46.076141357,   66.699737549,  -20.000000000 )
 
-#movie.rock 8, 45, start=230, stop=300, loop="on"
-
 scene 004, store
 
 # ### scene 005, remove dark map, rock ###
 
 disable ttd_mesh
-hide sticks, /dark//C/7
-show sticks, /dark//C/TTD`7/O3'
-show sticks, /dark//C/TTD`7/O3'
+disable dark
 enable morph1
 
 scene 005, store
@@ -171,7 +162,6 @@ enable morph3
 scene 007, store
 
 # ### scene 008 -- 1 ns map & rock ###
-
 
 load 1ns_ttd_polder.map, 1nsdensmap
 map_double 1nsdensmap
@@ -197,7 +187,6 @@ enable morph4
 unbond /morph4//C/TT6`7/C6, /morph4//C/TT6`7/C6T
 
 scene 010, store
-
 
 load 3ns_ttd_polder.map, 3nsdensmap
 map_double 3nsdensmap
@@ -227,34 +216,35 @@ mview store, 360, scene=004
 
 mview store, 361, scene=005
 mview store, 361, state=1, object=morph1
-mview store, 400, state=30, object=morph1
-mview store, 400, scene=005
+mview store, 420, state=30, object=morph1
+mview store, 420, scene=005
 
-mview store, 401, scene=006
-mview store, 401, state=1, object=morph2
-mview store, 460, state=30, object=morph2
-mview store, 460, scene=006
+mview store, 421, scene=006
+mview store, 421, state=1, object=morph2
+mview store, 480, state=30, object=morph2
+mview store, 480, scene=006
 
-mview store, 461, scene=007
-mview store, 461, state=1, object=morph3
-mview store, 500, state=30, object=morph3
-mview store, 500, scene=007
+mview store, 481, scene=007
+mview store, 481, state=1, object=morph3
+mview store, 540, state=30, object=morph3
+mview store, 540, scene=007
 
-mview store, 550, scene=008
-movie.rock first=580, last=700, angle=360, axis=y, loop=0, phase=90
-mview store, 740, scene=008
-mview store, 761, scene=009
+mview store, 580, scene=008
+movie.rock first=600, last=720, angle=360, axis=y, loop=0, phase=90
+mview store, 760, scene=008
+mview store, 781, scene=009
 
-mview store, 800, scene=009
-mview store, 801, scene=010
-mview store, 801, state=1, object=morph4
-mview store, 840, state=30, object=morph4
-mview store, 840, scene=010
-
+mview store, 820, scene=009
+mview store, 821, scene=010
+mview store, 821, state=1, object=morph4
+mview store, 880, state=30, object=morph4
 mview store, 880, scene=010
-mview store, 900, scene=011
-movie.rock first=900, last=1020, angle=360, axis=y, loop=0, phase=90
+
+mview store, 900, scene=010
+mview store, 920, scene=011
+movie.rock first=920, last=1040, angle=360, axis=y, loop=0, phase=90
 mview store, 1200, scene=011
 
 mview reinterpolate
-movie.produce bondbreaking.mpeg, mode=draw, quality=1
+set movie_fps, 30
+movie.produce bondbreaking.mpeg, mode=draw, preserve=1, quality=100
