@@ -32,7 +32,7 @@ color purple, 3ps
 load 3ps_fdaA_polder.ccp4, polder
 map_double polder
 
-morph morphobject, dark, 3ps
+morph morphobject, dark, 3ps, method="linear", refinement=0, steps=60
 
 ## coloring and selections, protein ##
 
@@ -134,8 +134,6 @@ hide dashes, dist*
 
 # start of morph
 scene 005, store
-# end of morph
-scene 006, store
 
 ### scene 007, 3 ps interactions ###
 
@@ -220,10 +218,10 @@ mview store,  60, scene=001
 mview store, 120, scene=002
 mview store, 180, scene=003
 mview store, 230, scene=004
-mview store, 241, scene=005
+mview store, 240, scene=005
 mview store, 241, state=1, object=morphobject
-mview store, 300, state=30, object=morphobject
-mview store, 301, scene=006
+mview store, 300, state=60, object=morphobject
+mview store, 301, scene=005
 mview store, 302, scene=007
 mview store, 340, scene=008
 mview store, 400, scene=009
@@ -237,4 +235,4 @@ mview store, 560, scene=012
 mview reinterpolate
 ## set view to look at FAD ##
 
-movie.produce 3ps.mpeg, mode=draw, quality=1
+movie.produce 3ps.mpeg, mode=draw, quality=100, preserve=1
