@@ -309,21 +309,21 @@ mview store, 600, scene=011
 mview store, 620, scene=012
 mview store, 680, scene=012
 mview store, 681, state=1, object=morph2d
-mview store, 710, state=30, object=morph2d
-mview store, 710, scene=012
+mview store, 740, state=30, object=morph2d
+mview store, 740, scene=012
 
-mview store, 711, scene=013
-mview store, 711, state=1, object=morph3a
-mview store, 830, state=60, object=morph3a
-mview store, 830, scene=013
+mview store, 741, scene=013
+mview store, 741, state=1, object=morph3a
+mview store, 860, state=60, object=morph3a
+mview store, 860, scene=013
 
-mview store, 831, scene=014
-mview store, 831, state=1, object=morph3b
-mview store, 951, state=60, object=morph3b
-mview store, 951, scene=014
+mview store, 861, scene=014
+mview store, 861, state=1, object=morph3b
+mview store, 981, state=60, object=morph3b
+mview store, 981, scene=014
 
-mview store, 980, scene=014
-mview store, 1080, scene=015
+mview store, 1010, scene=014
+mview store, 1110, scene=015
 mview store, 1200, scene=016
 
 mview reinterpolate
