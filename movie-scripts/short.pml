@@ -15,7 +15,7 @@ set cartoon_rect_length, 0.5
 set cartoon_oval_length, 0.5
 set cartoon_gap_cutoff, 0
 set cartoon_transparency, 0.7
-set cartoon_color, grey50
+set cartoon_color, grey70
 set stick_radius, 0.12
 set mesh_width, 1.2
 set mesh_quality, 6
@@ -364,4 +364,8 @@ mview store, 1260, scene=016
 
 mview reinterpolate
 set movie_fps, 30
-movie.produce short.mpeg, mode=draw, preserve=1, quality=100
+set cache_frames, off
+set draw_frames, on
+#movie.produce short.mpeg, mode=draw, preserve=1, quality=100
+
+mpng short
